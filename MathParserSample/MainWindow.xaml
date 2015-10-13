@@ -1,0 +1,43 @@
+﻿<Window x:Class="Sequention.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Eq="clr-namespace:Sequention"
+        Title="Sequention" Height="350" Width="525">
+    <Grid>
+        <DockPanel>
+            <StackPanel VerticalAlignment="Center" Margin="5,0">
+                <Eq:MaskedTextBox Background="#DDFFFFFF" Value="10" x:Name="UIndex"/>
+                <ComboBox Foreground="#C7000000" Name="Options" SelectionChanged="Options_SelectionChanged" SelectedIndex="0" FontFamily="Comic Sans MS" FontSize="56" Width="120" Height="150" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,5">
+                    <ComboBoxItem Content="Σ" />
+                    <ComboBoxItem Content="π" />
+                    <ComboBoxItem Content="ʃ" />
+                </ComboBox>
+                <DockPanel>
+                    <TextBox Background="#DDFFFFFF" MaxLength="1" Text="x" Height="20" Width="15" Name="Iterate"/>
+                    <Label Content="=" />
+                    <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="LIndex"/>
+                </DockPanel>
+                <DockPanel Name="StepPanel">
+                    <Label Content="Step"/>
+                    <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="Step"/>
+                </DockPanel>
+            </StackPanel>
+            <DockPanel>
+                <TextBox Foreground="#B7000000" Name="Resultant" Height="85" FontSize="15" FontStyle="Italic" HorizontalContentAlignment="Right" DockPanel.Dock="Bottom" Background="#9FFFFFFF" IsReadOnly="True" Text="Ready" />
+                <ListBox IsEnabled="False" DockPanel.Dock="Bottom" SelectedIndex="0" Name="IntegrationKind" Width="200">
+                    <ListBoxItem Content="Trapezoidal"/>
+                    <ListBoxItem Content="Left Hand"/>
+                    <ListBoxItem Content="Mid Point"/>
+                </ListBox>
+
+                <StackPanel VerticalAlignment="Center">
+                    <TextBox TextChanged="ExpressionChanged" Background="#9FFFFFFF" Height="30" KeyUp="TextBox_KeyUp" VerticalContentAlignment="Center" FontSize="14" Name="ExpressionBox" />
+                    <DockPanel>
+                        <Button Margin="0,2" Content="Reset" DockPanel.Dock="Left" Width="130" Background="#B7000000" Foreground="#FFFFA740" Click="Reset" />
+                        <Button Margin="0,2" Content="Calculate" Background="#B7000000" Foreground="LightBlue" Click="CalculateClick" />
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>
