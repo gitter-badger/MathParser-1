@@ -3,20 +3,24 @@ using System.Collections.Generic;
 
 namespace MathParsing
 {
-    public partial class MathParser
+    public class RPNEvaluator
     {
+        public AngleType AngleType { get; set; }
+
+        public RPNEvaluator(AngleType AngleType = AngleType.Radians) { this.AngleType = AngleType; }
+
         /// <summary>
         /// Calculate expression in reverse-polish notation
         /// </summary>
-        /// <param name="Expression">Math expression in reverse-polish notation</param>
+        /// <param name="RPNExpression">Math expression in reverse-polish notation</param>
         /// <returns>Result</returns>
-        double CalculateRPN(List<Token> Expression)
+        public double Evaluate(List<Token> RPNExpression)
         {
             var Stack = new Stack<double>(); // Contains operands
 
             // Analyse entire expression
-            foreach (var token in Expression)
-                SyntaxAnalysisRPN(Stack, token);
+            foreach (var Token in RPNExpression)
+                SyntaxAnalysisRPN(Stack, Token);
 
             // At end of analysis in stack should be only one operand (result)
             if (Stack.Count > 1) throw new ArgumentException("Excess operand");

@@ -10,9 +10,11 @@ namespace MathParsing
         #region Fields
         List<Token> RPNExpression;
 
+        RPNEvaluator Evaluator;
+
         public char DecimalSeparator { get; set; }
 
-        public AngleType AngleType { get; set; }
+        public AngleType AngleType { get { return Evaluator.AngleType; } set { Evaluator.AngleType = value; } }
 
         public readonly List<Operator> Operators = new List<Operator>();
 
@@ -25,12 +27,12 @@ namespace MathParsing
         /// Initialize new instance of MathParser
         /// (Decimal Separator symbol is read from regional settings in system)
         /// </summary>
-        public MathParser()
+        public MathParser(AngleType AngleType = AngleType.Radians)
         {
             try { DecimalSeparator = Char.Parse(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator); }
             catch (FormatException) { DecimalSeparator = '.'; }
 
-            AngleType = AngleType.Radians;
+            Evaluator = new RPNEvaluator(AngleType);
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace MathParsing
         /// <param name="Expression">Math expression (infix/standard notation)</param>
         public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
-        public double Evaluate() { return CalculateRPN(RPNExpression); }
+        public double Evaluate() { return Evaluator.Evaluate(RPNExpression); }
 
         public double Evaluate(string Expression)
         {
