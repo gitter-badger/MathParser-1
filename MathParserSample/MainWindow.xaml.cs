@@ -64,9 +64,9 @@ namespace Sequention
         {
             try
             {
-                StepPanel.IsEnabled = Options.SelectedIndex != 3 && Options.SelectedIndex != 0;
-                IntegrationKind.IsEnabled = Options.SelectedIndex == 3;
-                UIndex.IsEnabled = Options.SelectedIndex != 0;
+                StepPanel.Visibility = (Options.SelectedIndex != 3 && Options.SelectedIndex != 0) ? Visibility.Visible : Visibility.Hidden;
+                IntegrationKind.Visibility = Options.SelectedIndex == 3 ? Visibility.Visible : Visibility.Hidden;
+                UIndex.Visibility = Options.SelectedIndex != 0 ? Visibility.Visible : Visibility.Hidden;
             }
             catch { }
         }

@@ -6,7 +6,7 @@
     <Grid>
         <DockPanel>
             <StackPanel VerticalAlignment="Center" Margin="5,0">
-                <Eq:MaskedTextBox Background="#DDFFFFFF" Value="10" IsEnabled="False" x:Name="UIndex"/>
+                <Eq:MaskedTextBox Background="#DDFFFFFF" Value="10" Visibility="Hidden" x:Name="UIndex"/>
                 <ComboBox Foreground="#C7000000" Name="Options" SelectionChanged="Options_SelectionChanged" SelectedIndex="0" FontFamily="Comic Sans MS" FontSize="56" Width="120" Height="150" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,5">
                     <ComboBoxItem Content="="/>
                     <ComboBoxItem Content="Σ" />
@@ -18,14 +18,14 @@
                     <Label Content="=" />
                     <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="LIndex"/>
                 </DockPanel>
-                <DockPanel Name="StepPanel" IsEnabled="False">
+                <DockPanel Name="StepPanel" Visibility="Hidden">
                     <Label Content="Step"/>
                     <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="Step"/>
                 </DockPanel>
             </StackPanel>
-            <DockPanel>
+            <DockPanel Margin="0,0,3,0">
                 <TextBox Foreground="#B7000000" Name="Resultant" Height="85" FontSize="15" FontStyle="Italic" HorizontalContentAlignment="Right" DockPanel.Dock="Bottom" Background="#9FFFFFFF" IsReadOnly="True" Text="Ready" />
-                <ListBox IsEnabled="False" DockPanel.Dock="Bottom" SelectedIndex="0" Name="IntegrationKind" Width="200">
+                <ListBox Visibility="Hidden" DockPanel.Dock="Bottom" SelectedIndex="0" Name="IntegrationKind" Width="200">
                     <ListBoxItem Content="Trapezoidal"/>
                     <ListBoxItem Content="Left Hand"/>
                     <ListBoxItem Content="Mid Point"/>
