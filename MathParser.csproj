@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="AngleType.cs" />
     <Compile Include="Combinatorics.cs" />
-    <Compile Include="MathParser Core\RPN Generator.cs" />
+    <Compile Include="MathParser Core\RPNGenerator.cs" />
     <Compile Include="MathParser Core\StaticTokens.cs" />
     <Compile Include="MathParser Core\MathParser.cs" />
     <Compile Include="MathParser Core\TokenFinder.cs" />

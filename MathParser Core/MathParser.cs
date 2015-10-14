@@ -8,7 +8,7 @@ namespace MathParsing
     public partial class MathParser
     {
         #region Fields
-        List<Token> RPNExpression;
+        public List<Token> RPNExpression { get; private set; }
 
         RPNEvaluator Evaluator;
 
@@ -41,7 +41,12 @@ namespace MathParsing
         /// <param name="Expression">Math expression (infix/standard notation)</param>
         public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
 
-        public double Evaluate() { return Evaluator.Evaluate(RPNExpression); }
+        public double Evaluate() 
+        {
+            if (RPNExpression == null) throw new ArgumentNullException("RPN has not been Generated");
+
+            return Evaluator.Evaluate(RPNExpression);
+        }
 
         public double Evaluate(string Expression)
         {
