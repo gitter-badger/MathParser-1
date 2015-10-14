@@ -30,12 +30,19 @@ namespace Sequention
                 }
 
                 if (Options.SelectedIndex == 0)
-                    Resultant.Text = Sigmation.Sigma(ExpressionBox.Text, LIndex.Value, UIndex.Value, char.Parse(Iterate.Text), Step.Value).ToString();
+                {
+                    var Parser = new MathParsing.MathParser();
+                    Parser.Variables.Add(new MathParsing.Variable(Iterate.Text, LIndex.Value));
+                    Resultant.Text = Parser.Evaluate(ExpressionBox.Text).ToString();
+                }
 
                 else if (Options.SelectedIndex == 1)
-                    Resultant.Text = Sigmation.Pi(ExpressionBox.Text, LIndex.Value, UIndex.Value, char.Parse(Iterate.Text), Step.Value).ToString();
+                    Resultant.Text = Sigmation.Sigma(ExpressionBox.Text, LIndex.Value, UIndex.Value, char.Parse(Iterate.Text), Step.Value).ToString();
 
                 else if (Options.SelectedIndex == 2)
+                    Resultant.Text = Sigmation.Pi(ExpressionBox.Text, LIndex.Value, UIndex.Value, char.Parse(Iterate.Text), Step.Value).ToString();
+
+                else if (Options.SelectedIndex == 3)
                     Resultant.Text = Sigmation.Integral(ExpressionBox.Text, LIndex.Value, UIndex.Value, char.Parse(Iterate.Text), IntegrationKind.SelectedIndex).ToString();
             }
             //catch { Resultant.Text = "Error"; }
@@ -57,8 +64,9 @@ namespace Sequention
         {
             try
             {
-                StepPanel.IsEnabled = Options.SelectedIndex != 2;
-                IntegrationKind.IsEnabled = Options.SelectedIndex == 2;
+                StepPanel.IsEnabled = Options.SelectedIndex != 3 && Options.SelectedIndex != 0;
+                IntegrationKind.IsEnabled = Options.SelectedIndex == 3;
+                UIndex.IsEnabled = Options.SelectedIndex != 0;
             }
             catch { }
         }

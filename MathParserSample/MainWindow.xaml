@@ -6,8 +6,9 @@
     <Grid>
         <DockPanel>
             <StackPanel VerticalAlignment="Center" Margin="5,0">
-                <Eq:MaskedTextBox Background="#DDFFFFFF" Value="10" x:Name="UIndex"/>
+                <Eq:MaskedTextBox Background="#DDFFFFFF" Value="10" IsEnabled="False" x:Name="UIndex"/>
                 <ComboBox Foreground="#C7000000" Name="Options" SelectionChanged="Options_SelectionChanged" SelectedIndex="0" FontFamily="Comic Sans MS" FontSize="56" Width="120" Height="150" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,5">
+                    <ComboBoxItem Content="="/>
                     <ComboBoxItem Content="Σ" />
                     <ComboBoxItem Content="π" />
                     <ComboBoxItem Content="ʃ" />
@@ -17,7 +18,7 @@
                     <Label Content="=" />
                     <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="LIndex"/>
                 </DockPanel>
-                <DockPanel Name="StepPanel">
+                <DockPanel Name="StepPanel" IsEnabled="False">
                     <Label Content="Step"/>
                     <Eq:MaskedTextBox Background="#DDFFFFFF" Value="1" Height="20" x:Name="Step"/>
                 </DockPanel>
