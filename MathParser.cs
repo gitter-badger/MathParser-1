@@ -93,7 +93,7 @@ namespace MathParsing
         /// Parses the given math expression and Caches it in RPN
         /// </summary>
         /// <param name="Expression">Math expression (infix/standard notation)</param>
-        public void Parse(string Expression) { RPNExpression = ConvertToRPN(FormatString(Expression)); }
+        public void Parse(string Expression) { RPNExpression = RPNGenerator.Generate(ParseInfix(FormatString(Expression))); }
 
         public double Evaluate()
         {
@@ -132,9 +132,7 @@ namespace MathParsing
 
             return FormattedString.ToString().Replace(")(", ")*(");
         }
-
-        List<Token> ConvertToRPN(string Expression) { return RPNGenerator.Generate(ParseInfix(Expression)); }
-
+        
         List<Token> ParseInfix(string Expression)
         {
             int Position = 0;
@@ -142,14 +140,14 @@ namespace MathParsing
 
             while (Position < Expression.Length)
             {
-                // Receive first char
+                // Receive the first char
                 StringBuilder Word = new StringBuilder();
                 Word.Append(Expression[Position]);
 
-                // If it is a operator
+                // If it is an operator
                 if (IsOperatorDefined(Word.ToString()))
                 {
-                    // Determine it is unary or binary operator
+                    // Determine whether it is unary or binary operator
                     bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
                     Position++;
 
@@ -228,6 +226,17 @@ namespace MathParsing
                     }
 
                     Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
+                }
+                else if (!Char.IsLetter(Word[0]) && !Char.IsDigit(Word[0]))
+                {
+                    while (!IsOperatorDefined(Word.ToString()) 
+                        & ++Position < Expression.Length 
+                        & !Char.IsLetter(Expression[Position]) 
+                        & !Char.IsDigit(Expression[Position]))
+                        Word.Append(Expression[Position]);
+
+                    if (IsOperatorDefined(Word.ToString())) Infix.Add(FindOperator(Word.ToString()));
+                    else throw new ArgumentException("Unknown token in expression");
                 }
                 else throw new ArgumentException("Unknown token in expression");
             }
