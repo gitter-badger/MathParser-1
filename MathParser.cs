@@ -108,9 +108,6 @@ namespace MathParsing
             return Evaluate();
         }
 
-        /// <summary>
-        /// Produce formatted string from the given string
-        /// </summary>
         string FormatString(string Expression)
         {
             if (string.IsNullOrEmpty(Expression)) throw new ArgumentNullException("Expression is null or empty");
@@ -136,114 +133,106 @@ namespace MathParsing
             return FormattedString.ToString().Replace(")(", ")*(");
         }
 
-        /// <summary>
-        /// Produce math expression in reverse polish notation
-        /// by the given string
-        /// </summary>
-        /// <param name="Expression">Math expression in infix notation</param>
-        /// <returns>Math expression in postfix notation (RPN)</returns>
-        List<Token> ConvertToRPN(string Expression)
+        List<Token> ConvertToRPN(string Expression) { return RPNGenerator.Generate(ParseInfix(Expression)); }
+
+        List<Token> ParseInfix(string Expression)
         {
-            int Position = 0; // Current position of lexical analysis
-            var InfixExpression = new List<Token>();
+            int Position = 0;
+            var Infix = new List<Token>();
 
             while (Position < Expression.Length)
-                InfixExpression.Add(LexicalAnalysisInfixNotation(Expression, ref Position));
-
-            return RPNGenerator.Generate(InfixExpression);
-        }
-
-        /// <summary>
-        /// Produce token by the given math expression
-        /// </summary>
-        /// <param name="Expression">Math expression in infix notation</param>
-        /// <param name="Position">Current position in string for lexical analysis</param>
-        Token LexicalAnalysisInfixNotation(string Expression, ref int Position)
-        {
-            // Receive first char
-            StringBuilder Word = new StringBuilder();
-            Word.Append(Expression[Position]);
-
-            // If it is a operator
-            if (IsOperatorDefined(Word.ToString()))
             {
-                // Determine it is unary or binary operator
-                bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
-                Position++;
+                // Receive first char
+                StringBuilder Word = new StringBuilder();
+                Word.Append(Expression[Position]);
 
-                switch (Word.ToString())
+                // If it is a operator
+                if (IsOperatorDefined(Word.ToString()))
                 {
-                    case "+":
-                        return IsUnary ? (Operator)CommonTokens.UnaryPlus : CommonTokens.Plus;
-                    case "-":
-                        return IsUnary ? (Operator)CommonTokens.UnaryMinus : CommonTokens.Minus;
-                    case ",":
-                        return CommonTokens.Comma;
-                    default:
-                        return FindOperator(Word.ToString());
+                    // Determine it is unary or binary operator
+                    bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
+                    Position++;
+
+                    switch (Word.ToString())
+                    {
+                        case "+":
+                            Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryPlus : CommonTokens.Plus);
+                            break;
+                        case "-":
+                            Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryMinus : CommonTokens.Minus);
+                            break;
+                        case ",":
+                            Infix.Add(CommonTokens.Comma);
+                            break;
+                        default:
+                            Infix.Add(FindOperator(Word.ToString()));
+                            break;
+                    }
                 }
-            }
-            else if (Char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
-                        || CommonTokens.Constants.ContainsKey(Word.ToString()) || IsVariableDefined(Word.ToString()))
-            {
-                // Read function or constant name
-                while (++Position < Expression.Length && Char.IsLetter(Expression[Position]))
-                    Word.Append(Expression[Position]);
-
-                if (IsFunctionDefined(Word.ToString()))
-                    return FindFunction(Word.ToString());
-                else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
-                    return CommonTokens.Constants[Word.ToString()];
-                else if (IsVariableDefined(Word.ToString()))
-                    return FindVariable(Word.ToString());
-                else throw new ArgumentException("Unknown token");
-            }
-
-            // Read number
-            else if (Char.IsDigit(Word[0]) || Word[0] == DecimalSeparator)
-            {
-                // Read the whole part of number
-                if (Char.IsDigit(Word[0]))
-                    while (++Position < Expression.Length && Char.IsDigit(Expression[Position]))
+                else if (Char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
+                            || CommonTokens.Constants.ContainsKey(Word.ToString()) || IsVariableDefined(Word.ToString()))
+                {
+                    // Read function or constant name
+                    while (++Position < Expression.Length && Char.IsLetter(Expression[Position]))
                         Word.Append(Expression[Position]);
 
-                // Because system decimal separator will be added below
-                else Word.Clear();
-
-                // Read the fractional part of number
-                if (Position < Expression.Length && Expression[Position] == DecimalSeparator)
-                {
-                    // Add current system specific decimal separator
-                    Word.Append(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-
-                    while (++Position < Expression.Length
-                    && Char.IsDigit(Expression[Position]))
-                        Word.Append(Expression[Position]);
+                    if (IsFunctionDefined(Word.ToString()))
+                        Infix.Add(FindFunction(Word.ToString()));
+                    else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
+                        Infix.Add(CommonTokens.Constants[Word.ToString()]);
+                    else if (IsVariableDefined(Word.ToString()))
+                        Infix.Add(FindVariable(Word.ToString()));
+                    else throw new ArgumentException("Unknown token");
                 }
 
-                // Read scientific notation (suffix)
-                if (Position + 1 < Expression.Length && Expression[Position] == 'e'
-                    && (Char.IsDigit(Expression[Position + 1])
-                        || (Position + 2 < Expression.Length
-                            && (Expression[Position + 1] == '+'
-                                || Expression[Position + 1] == '-')
-                                    && Char.IsDigit(Expression[Position + 2]))))
+                // Read number
+                else if (Char.IsDigit(Word[0]) || Word[0] == DecimalSeparator)
                 {
-                    Word.Append(Expression[Position++]); // e
+                    // Read the whole part of number
+                    if (Char.IsDigit(Word[0]))
+                        while (++Position < Expression.Length && Char.IsDigit(Expression[Position]))
+                            Word.Append(Expression[Position]);
 
-                    if (Expression[Position] == '+' || Expression[Position] == '-')
-                        Word.Append(Expression[Position++]); // sign
+                    // Because system decimal separator will be added below
+                    else Word.Clear();
 
-                    while (Position < Expression.Length && Char.IsDigit(Expression[Position]))
-                        Word.Append(Expression[Position++]); // power
+                    // Read the fractional part of number
+                    if (Position < Expression.Length && Expression[Position] == DecimalSeparator)
+                    {
+                        // Add current system specific decimal separator
+                        Word.Append(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
-                    // Convert number from scientific notation to decimal notation
-                    return (Constant)Convert.ToDouble(Word.ToString());
+                        while (++Position < Expression.Length
+                        && Char.IsDigit(Expression[Position]))
+                            Word.Append(Expression[Position]);
+                    }
+
+                    // Read scientific notation (suffix)
+                    if (Position + 1 < Expression.Length && Expression[Position] == 'e'
+                        && (Char.IsDigit(Expression[Position + 1])
+                            || (Position + 2 < Expression.Length
+                                && (Expression[Position + 1] == '+'
+                                    || Expression[Position + 1] == '-')
+                                        && Char.IsDigit(Expression[Position + 2]))))
+                    {
+                        Word.Append(Expression[Position++]); // e
+
+                        if (Expression[Position] == '+' || Expression[Position] == '-')
+                            Word.Append(Expression[Position++]); // sign
+
+                        while (Position < Expression.Length && Char.IsDigit(Expression[Position]))
+                            Word.Append(Expression[Position++]); // power
+
+                        // Convert number from scientific notation to decimal notation
+                        Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
+                    }
+
+                    Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
                 }
-
-                return (Constant)Convert.ToDouble(Word.ToString());
+                else throw new ArgumentException("Unknown token in expression");
             }
-            else throw new ArgumentException("Unknown token in expression");
+
+            return Infix;
         }
     }
 }
