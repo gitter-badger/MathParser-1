@@ -242,21 +242,20 @@ It then evaluates the RPN.
 1. `FormatString()` removes WhiteSpaces and Checks for Unbalanced Paranthesis and throws an Exception if any found.
 2. `ConvertToRPN()` converts infix to RPN and caches it in `List<Token>` RPNExpression;
 	* `LexicalAnalysisInfixNotation()` parses Tokens from Infix Expression.
-	* `SyntaxAnalysisInfixNotation()` generates the RPN TokenList and Stack
+	* `RPNGenerator` generates the RPN TokenList and Stack
 		* If Token is a `Number` or a `Variable`, it is pushed to List
 		* Else If it is a `Function`, it is pushed to Stack
 		* Else If it is `(`, it is pushed to Stack
 		* Else If it is `)`, pop elements from stack to list until we find `(`,
 		  and add to list a function if any in the peek of stack
 		* Else Move Elements from stack to list while their priority is greater than Token
-	* Pop Operators which must be the only kind of items present in Stack to List
-3. `CalculateRPN()` evaluates the RPN expression and returns the result as a System.Double
-	* SyntaxAnalysisRPN processes the Token List
-		* If Token is a `Number`, Push it to the Stack
-		* Else If Token is a `Variable`, Push its value to the Stack
-		* Else If Token is a `UnaryOperator`, Pop a `double` from Stack, Invoke the Operator and Push its Result back to Stack
-		* Else If Token is a `TrigonometricFunction`, proceed as for a `UnaryOperator` while passing `AngleType` also on `Invoke()`
-		* Else If Token is a `UnaryFunction` or a `PostfixFunction`, proceed as for `UnaryOperator`
-		* Else If Token is a `BinaryFunction` or a `BinaryOperator`, Pop two values from the Stack, Invoke the Token, Push the Result back to Stack
-		* Else If Token is a `TernaryFunction`, Pop three Values and proceed as above
+		* Pop Operators which must be the only kind of items present in Stack to List
+3. `RPNEvaluator` evaluates the RPN expression and returns the result as a `System.Double`
+	* If Token is a `Number`, Push it to the Stack
+	* Else If Token is a `Variable`, Push its value to the Stack
+	* Else If Token is a `UnaryOperator`, Pop a `double` from Stack, Invoke the Operator and Push its Result back to Stack
+	* Else If Token is a `TrigonometricFunction`, proceed as for a `UnaryOperator` while passing `AngleType` also on `Invoke()`
+	* Else If Token is a `UnaryFunction` or a `PostfixFunction`, proceed as for `UnaryOperator`
+	* Else If Token is a `BinaryFunction` or a `BinaryOperator`, Pop two values from the Stack, Invoke the Token, Push the Result back to Stack
+	* Else If Token is a `TernaryFunction`, Pop three Values and proceed as above
 	* End: The Stack Should Contain only one Operand - `The Result`
