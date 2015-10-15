@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace MathParsing
 {
-    public partial class MathParser
+    internal static class CommonTokens
     {
-        static readonly Operator LeftParenthesis = new Operator("("),
+        public static readonly Operator LeftParenthesis = new Operator("("),
             RightParenthesis = new Operator(")"),
             Comma = new Operator(",");
 
-        static readonly UnaryOperator UnaryPlus = new UnaryOperator("un+", 6, (x) => x),
+        public static readonly UnaryOperator UnaryPlus = new UnaryOperator("un+", 6, (x) => x),
             UnaryMinus = new UnaryOperator("un-", 6, (x) => -x);
 
-        static readonly BinaryOperator Plus = new BinaryOperator("+", 2, (x, y) => x + y),
+        public static readonly BinaryOperator Plus = new BinaryOperator("+", 2, (x, y) => x + y),
                 Minus = new BinaryOperator("-", 2, (x, y) => x - y);
 
-        static readonly List<Operator> DefaultOperators =
+        public static readonly List<Operator> Operators =
             new List<Operator>
             {
                 LeftParenthesis,
@@ -31,7 +31,7 @@ namespace MathParsing
                 new BinaryOperator("%", 8, (x, y) => x % y)
             };
 
-        static readonly List<Function> DefaultFunctions =
+        public static readonly List<Function> Functions =
             new List<Function>
             {
                 new UnaryFunction("sqrt", Math.Sqrt),
@@ -70,7 +70,7 @@ namespace MathParsing
                 new PostfixFunction("!", (x) => Combinatorics.Factorial((int)x))
             };
 
-        static readonly Dictionary<string, Constant> Constants =
+        public static readonly Dictionary<string, Constant> Constants =
             new Dictionary<string, Constant>
             {
                 {"pi", Math.PI },
