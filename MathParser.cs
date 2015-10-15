@@ -132,7 +132,7 @@ namespace MathParsing
 
             return FormattedString.ToString().Replace(")(", ")*(");
         }
-        
+
         List<Token> ParseInfix(string Expression)
         {
             int Position = 0;
@@ -155,16 +155,16 @@ namespace MathParsing
                     {
                         case "+":
                             Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryPlus : CommonTokens.Plus);
-                            break;
+                            continue;
                         case "-":
                             Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryMinus : CommonTokens.Minus);
-                            break;
+                            continue;
                         case ",":
                             Infix.Add(CommonTokens.Comma);
-                            break;
+                            continue;
                         default:
                             Infix.Add(FindOperator(Word.ToString()));
-                            break;
+                            continue;
                     }
                 }
                 else if (Char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
@@ -226,17 +226,6 @@ namespace MathParsing
                     }
 
                     Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
-                }
-                else if (!Char.IsLetter(Word[0]) && !Char.IsDigit(Word[0]))
-                {
-                    while (!IsOperatorDefined(Word.ToString()) 
-                        & ++Position < Expression.Length 
-                        & !Char.IsLetter(Expression[Position]) 
-                        & !Char.IsDigit(Expression[Position]))
-                        Word.Append(Expression[Position]);
-
-                    if (IsOperatorDefined(Word.ToString())) Infix.Add(FindOperator(Word.ToString()));
-                    else throw new ArgumentException("Unknown token in expression");
                 }
                 else throw new ArgumentException("Unknown token in expression");
             }
