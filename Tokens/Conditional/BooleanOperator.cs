@@ -22,7 +22,9 @@ namespace MathParsing
         public static readonly ComparisonOperator Equals = new ComparisonOperator("==", 0, (x, y) => x == y),
             NotEquals = new ComparisonOperator("!=", 0, (x, y) => x != y),
             GreaterThan = new ComparisonOperator(">", 0, (x, y) => x > y),
-            LessThan = new ComparisonOperator("<", 0, (x, y) => x < y);
+            LessThan = new ComparisonOperator("<", 0, (x, y) => x < y),
+            GreaterThanOrEquals = new ComparisonOperator(">=", 0, (x, y) => x >= y),
+            LessThanOrEquals = new ComparisonOperator("<=", 0, (x, y) => x <= y);
     }
     
     class BinaryBooleanOperator : BooleanOperator
