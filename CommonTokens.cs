@@ -34,7 +34,9 @@ namespace MathParsing
                 new ComparisonOperator(">", 3, (x, y) => x > y),
                 new ComparisonOperator("<", 3, (x, y) => x < y),
                 new ComparisonOperator(">=", 3, (x, y) => x >= y),
-                new ComparisonOperator("<=", 3, (x, y) => x <= y)
+                new ComparisonOperator("<=", 3, (x, y) => x <= y),
+                new BinaryBooleanOperator("&", 1, (x, y) => x && y),
+                new BinaryBooleanOperator("|", 1, (x, y) => x || y)
             };
 
         public static readonly List<Function> Functions =

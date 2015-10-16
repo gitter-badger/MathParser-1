@@ -58,6 +58,14 @@ namespace MathParsing
                     Stack.Push((Token as BinaryFunction).Invoke(Argument1, Argument2));
                 }
 
+                else if (Token.GetType() == typeof(BinaryBooleanOperator))
+                {
+                    Boolean Argument2 = Stack.Pop();
+                    Boolean Argument1 = Stack.Pop();
+
+                    Stack.Push((Token as BinaryBooleanOperator).Invoke(Argument1, Argument2));
+                }
+
                 else if (Token.IsTernaryFuncion)
                 {
                     double Argument3 = Stack.Pop();

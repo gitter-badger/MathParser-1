@@ -42,7 +42,10 @@
     <Compile Include="RPNEvaluator.cs" />
     <Compile Include="RPNGenerator.cs" />
     <Compile Include="Tokens\Conditional\Boolean.cs" />
-    <Compile Include="Tokens\Conditional\BooleanOperator.cs" />
+    <Compile Include="Tokens\Conditional\BinaryBooleanOperator.cs" />
+    <Compile Include="Tokens\Conditional\BooleanOperator Base.cs" />
+    <Compile Include="Tokens\Conditional\ComparisonOperator.cs" />
+    <Compile Include="Tokens\Conditional\IfFunction.cs" />
     <Compile Include="Tokens\Constant.cs" />
     <Compile Include="Tokens\Functions\TernaryFunction.cs" />
     <Compile Include="Tokens\Functions\TrigonometricFunction.cs" />
