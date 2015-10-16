@@ -10,7 +10,7 @@ namespace MathParsing
     {
         #region Fields
         public List<Token> RPNExpression { get; private set; }
-        
+
         public char DecimalSeparator { get; set; }
 
         public AngleType AngleType { get; set; }
@@ -25,50 +25,56 @@ namespace MathParsing
         #region TokenSearch
         bool IsOperatorDefined(string Keyword)
         {
-            foreach (var Operator in CommonTokens.Operators.Union(Operators).Reverse())
+            foreach (var Operator in EnumerateOperators())
                 if (Operator.Keyword == Keyword)
                     return true;
 
             return false;
         }
 
+        IEnumerable<Operator> EnumerateOperators() { return CommonTokens.Operators.Union(Operators).Reverse(); }
+
+        Operator FindOperator(string Keyword)
+        {
+            foreach (var Operator in EnumerateOperators())
+                if (Operator.Keyword == Keyword) return Operator;
+
+            throw new ArgumentException("Invalid Operator Token");
+        }
+
         bool IsFunctionDefined(string Keyword)
         {
-            foreach (var Function in CommonTokens.Functions.Union(Functions).Reverse())
+            foreach (var Function in EnumerateFunctions())
                 if (Function.Keyword == Keyword)
                     return true;
 
             return false;
         }
 
+        IEnumerable<Function> EnumerateFunctions() { return CommonTokens.Functions.Union(Functions).Reverse(); }
+
+        Function FindFunction(string Keyword)
+        {
+            foreach (var Function in EnumerateFunctions())
+                if (Function.Keyword == Keyword) return Function;
+
+            throw new ArgumentException("Invalid Function Token");
+        }
+
         bool IsVariableDefined(string Keyword)
         {
-            foreach (var Variable in ((IEnumerable<Variable>)Variables).Reverse())
+            foreach (var Variable in EnumerateVariable())
                 if (Variable.Keyword == Keyword)
                     return true;
 
             return false;
         }
 
-        Operator FindOperator(string Keyword)
-        {
-            foreach (var Operator in CommonTokens.Operators.Union(Operators).Reverse())
-                if (Operator.Keyword == Keyword) return Operator;
-
-            throw new ArgumentException("Invalid Operator Token");
-        }
-
-        Function FindFunction(string Keyword)
-        {
-            foreach (var Function in CommonTokens.Functions.Union(Functions).Reverse())
-                if (Function.Keyword == Keyword) return Function;
-
-            throw new ArgumentException("Invalid Function Token");
-        }
+        IEnumerable<Variable> EnumerateVariable() { return ((IEnumerable<Variable>)Variables).Reverse(); }
 
         Variable FindVariable(string Keyword)
         {
-            foreach (var Variable in ((IEnumerable<Variable>)Variables).Reverse())
+            foreach (var Variable in EnumerateVariable())
                 if (Variable.Keyword == Keyword) return Variable;
 
             throw new ArgumentException("Undefined Variable");
@@ -149,20 +155,28 @@ namespace MathParsing
                     bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
                     Position++;
 
-                    switch (Word.ToString())
+                    if (IsUnary)
                     {
-                        case "+":
-                            Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryPlus : CommonTokens.Plus);
-                            continue;
-                        case "-":
-                            Infix.Add(IsUnary ? (Operator)CommonTokens.UnaryMinus : CommonTokens.Minus);
-                            continue;
-                        case ",":
-                            Infix.Add(CommonTokens.Comma);
-                            continue;
-                        default:
-                            Infix.Add(FindOperator(Word.ToString()));
-                            continue;
+                        bool Found = false;
+
+                        foreach (var Op in EnumerateOperators())
+                            if (Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                            {
+                                Infix.Add(Op);
+                                Found = true;
+                                break;
+                            }
+
+                        if (!Found) throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
+                    }
+                    else
+                    {
+                        foreach (var Op in EnumerateOperators())
+                            if (!Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                            {
+                                Infix.Add(Op);
+                                break;
+                            }
                     }
                 }
                 else if (Char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
