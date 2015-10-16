@@ -9,11 +9,11 @@ namespace MathParsing
             RightParenthesis = new Operator(")"),
             Comma = new Operator(",");
 
-        public static readonly UnaryOperator UnaryPlus = new UnaryOperator('+', 6, (x) => x),
-            UnaryMinus = new UnaryOperator('-', 6, (x) => -x);
+        public static readonly UnaryOperator UnaryPlus = new UnaryOperator('+', 8, (x) => x),
+            UnaryMinus = new UnaryOperator('-', 8, (x) => -x);
 
-        public static readonly BinaryOperator Plus = new BinaryOperator("+", 2, (x, y) => x + y),
-                Minus = new BinaryOperator("-", 2, (x, y) => x - y);
+        public static readonly BinaryOperator Plus = new BinaryOperator("+", 4, (x, y) => x + y),
+                Minus = new BinaryOperator("-", 4, (x, y) => x - y);
 
         public static readonly List<Operator> Operators =
             new List<Operator>
@@ -25,16 +25,16 @@ namespace MathParsing
                 UnaryMinus,
                 Plus,
                 Minus,
-                new BinaryOperator("*", 4, (x, y) => x * y),
-                new BinaryOperator("/", 4, (x, y) => x / y),
-                new BinaryOperator("^", 8, Math.Pow),
-                new BinaryOperator("%", 8, (x, y) => x % y),
-                new ComparisonOperator("==", 0, (x, y) => x == y),
-                new ComparisonOperator("!=", 0, (x, y) => x != y),
-                new ComparisonOperator(">", 0, (x, y) => x > y),
-                new ComparisonOperator("<", 0, (x, y) => x < y),
-                new ComparisonOperator(">=", 0, (x, y) => x >= y),
-                new ComparisonOperator("<=", 0, (x, y) => x <= y)
+                new BinaryOperator("*", 6, (x, y) => x * y),
+                new BinaryOperator("/", 6, (x, y) => x / y),
+                new BinaryOperator("^", 10, Math.Pow),
+                new BinaryOperator("%", 10, (x, y) => x % y),
+                new ComparisonOperator("==", 3, (x, y) => x == y),
+                new ComparisonOperator("!=", 3, (x, y) => x != y),
+                new ComparisonOperator(">", 3, (x, y) => x > y),
+                new ComparisonOperator("<", 3, (x, y) => x < y),
+                new ComparisonOperator(">=", 3, (x, y) => x >= y),
+                new ComparisonOperator("<=", 3, (x, y) => x <= y)
             };
 
         public static readonly List<Function> Functions =
@@ -73,7 +73,8 @@ namespace MathParsing
                         else if (val > max) return max;
                         else return val;
                     }),
-                new PostfixFunction("!", (x) => Combinatorics.Factorial((int)x))
+                new PostfixFunction("!", (x) => Combinatorics.Factorial((int)x)),
+                IfFunction.Instance
             };
 
         public static readonly Dictionary<string, Constant> Constants =

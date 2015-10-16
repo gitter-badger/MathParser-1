@@ -7,7 +7,7 @@ namespace MathParsing
         Func<double, double, double, double> Procedure;
 
         public TernaryFunction(string Keyword, Func<double, double, double, double> Procedure)
-            : base(Keyword)
+            : base(Keyword, 3)
         {
             this.Procedure = Procedure;
         }

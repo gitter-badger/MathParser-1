@@ -66,6 +66,15 @@ namespace MathParsing
 
                     Stack.Push((Token as TernaryFunction).Invoke(Argument1, Argument2, Argument3));
                 }
+
+                else if (Token.GetType() == typeof(IfFunction))
+                {
+                    double Argument3 = Stack.Pop();
+                    double Argument2 = Stack.Pop();
+                    Boolean Argument1 = Stack.Pop();
+
+                    Stack.Push((Token as IfFunction).Invoke(Argument1, Argument2, Argument3));
+                }
             }
 
             // At end of analysis in stack should be only one operand (result)

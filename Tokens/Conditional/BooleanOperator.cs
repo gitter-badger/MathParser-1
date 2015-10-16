@@ -38,9 +38,9 @@ namespace MathParsing
 
     class IfFunction : Function
     {
-        IfFunction(string Keyword) : base(Keyword) { }
+        IfFunction(string Keyword) : base(Keyword, 3) { }
 
-        public double Invoke(bool Arg, double True, double False) { return Arg ? True : False; }
+        public double Invoke(Boolean Arg, double OnTrue, double OnFalse) { return Arg ? OnTrue : OnFalse; }
 
         public static readonly IfFunction Instance = new IfFunction("If");
     }

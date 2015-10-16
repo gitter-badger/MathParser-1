@@ -12,7 +12,25 @@ namespace MathParsing
 
             foreach (var Token in Input)
             {
-                if (Token == CommonTokens.Comma) continue;
+                if (Token == CommonTokens.Comma)
+                {
+                    Token Peek;
+                    while (Stack.Count > 0)
+                    {
+                        Peek = Stack.Peek();
+
+                        if (Peek == CommonTokens.LeftParenthesis) break;
+                        if (Peek == CommonTokens.Comma)
+                        {
+                            Stack.Pop();
+                            break;
+                        }
+
+                        Output.Add(Stack.Pop());
+                    }
+
+                    Stack.Push(CommonTokens.Comma);
+                }
 
                 // If it's a number just put to list           
                 else if (Token.IsNumber || Token.IsVariable) Output.Add(Token);

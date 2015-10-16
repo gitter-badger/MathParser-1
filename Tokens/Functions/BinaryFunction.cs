@@ -7,7 +7,7 @@ namespace MathParsing
         Func<double, double, double> Procedure;
 
         public BinaryFunction(string Keyword, Func<double, double, double> Procedure)
-            : base(Keyword)
+            : base(Keyword, 2)
         {
             this.Procedure = Procedure;
         }
