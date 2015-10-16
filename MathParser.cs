@@ -34,6 +34,15 @@ namespace MathParsing
 
         IEnumerable<Operator> EnumerateOperators() { return CommonTokens.Operators.Union(Operators).Reverse(); }
 
+        Operator FindOperator(string Keyword)
+        {
+            foreach (var Op in EnumerateOperators())
+                if (Op.Keyword == Keyword)
+                    return Op;
+
+            throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
+        }
+
         bool IsFunctionDefined(string Keyword)
         {
             foreach (var Function in EnumerateFunctions())
@@ -170,7 +179,10 @@ namespace MathParsing
                         && Expression[Position] != '(')
                         Word.Append(Expression[Position]);
 
-                    if (IsFunctionDefined(Word.ToString()))
+                    if (IsOperatorDefined(Word.ToString()))
+                        Infix.Add(FindOperator(Word.ToString()));
+
+                    else if (IsFunctionDefined(Word.ToString()))
                         Infix.Add(FindFunction(Word.ToString()));
 
                     else if (CommonTokens.Constants.ContainsKey(Word.ToString()))

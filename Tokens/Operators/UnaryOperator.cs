@@ -6,8 +6,8 @@ namespace MathParsing
     {
         Func<double, double> Function;
 
-        internal UnaryOperator(string Keyword, int Priority, Func<double, double> Function)
-            : base(Keyword, Priority)
+        public UnaryOperator(char Keyword, int Priority, Func<double, double> Function)
+            : base(Keyword.ToString(), Priority)
         {
             this.Function = Function;
         }

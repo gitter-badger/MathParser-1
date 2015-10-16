@@ -9,8 +9,8 @@ namespace MathParsing
             RightParenthesis = new Operator(")"),
             Comma = new Operator(",");
 
-        public static readonly UnaryOperator UnaryPlus = new UnaryOperator("+", 6, (x) => x),
-            UnaryMinus = new UnaryOperator("-", 6, (x) => -x);
+        public static readonly UnaryOperator UnaryPlus = new UnaryOperator('+', 6, (x) => x),
+            UnaryMinus = new UnaryOperator('-', 6, (x) => -x);
 
         public static readonly BinaryOperator Plus = new BinaryOperator("+", 2, (x, y) => x + y),
                 Minus = new BinaryOperator("-", 2, (x, y) => x - y);
