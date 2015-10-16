@@ -200,7 +200,13 @@ namespace MathParsing
 
         Operator ParseOperator(string Expression, ref int Position, StringBuilder Word)
         {
-            if (!Char.IsLetterOrDigit(Word[0])
+            if (Word[0] == '(' || Word[0] == ')' || Word[0] == ',')
+            {
+                ++Position;
+                return FindOperator(Word.ToString());
+            }
+
+            else if (!Char.IsLetterOrDigit(Word[0])
                 && !Char.IsLetterOrDigit(Expression[Position + 1])
                 && Expression[Position + 1] != '(')
             {
@@ -217,7 +223,7 @@ namespace MathParsing
             else
             {
                 // Determine whether it is unary or binary operator
-                bool IsUnary = Position == 0 || Expression[Position - 1] == '(' || IsOperatorDefined(Expression[Position - 1].ToString());
+                bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
                 Position++;
 
                 if (IsUnary)
