@@ -185,52 +185,55 @@ namespace MathParsing
 
                 // Read number
                 else if (Char.IsDigit(Word[0]) || Word[0] == DecimalSeparator)
-                {
-                    // Read the whole part of number
-                    if (Char.IsDigit(Word[0]))
-                        while (++Position < Expression.Length && Char.IsDigit(Expression[Position]))
-                            Word.Append(Expression[Position]);
-
-                    // Because system decimal separator will be added below
-                    else Word.Clear();
-
-                    // Read the fractional part of number
-                    if (Position < Expression.Length && Expression[Position] == DecimalSeparator)
-                    {
-                        // Add current system specific decimal separator
-                        Word.Append(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-
-                        while (++Position < Expression.Length
-                        && Char.IsDigit(Expression[Position]))
-                            Word.Append(Expression[Position]);
-                    }
-
-                    // Read scientific notation (suffix)
-                    if (Position + 1 < Expression.Length && Expression[Position] == 'e'
-                        && (Char.IsDigit(Expression[Position + 1])
-                            || (Position + 2 < Expression.Length
-                                && (Expression[Position + 1] == '+'
-                                    || Expression[Position + 1] == '-')
-                                        && Char.IsDigit(Expression[Position + 2]))))
-                    {
-                        Word.Append(Expression[Position++]); // e
-
-                        if (Expression[Position] == '+' || Expression[Position] == '-')
-                            Word.Append(Expression[Position++]); // sign
-
-                        while (Position < Expression.Length && Char.IsDigit(Expression[Position]))
-                            Word.Append(Expression[Position++]); // power
-
-                        // Convert number from scientific notation to decimal notation
-                        Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
-                    }
-
-                    Infix.Add((Constant)Convert.ToDouble(Word.ToString()));
-                }
+                    Infix.Add(ParseNumber(Expression, ref Position, Word));
                 else throw new ArgumentException("Unknown token in expression");
             }
 
             return Infix;
+        }
+
+        Constant ParseNumber(string Expression, ref int Position, StringBuilder Word)
+        {
+            // Read the whole part of number
+            if (Char.IsDigit(Word[0]))
+                while (++Position < Expression.Length && Char.IsDigit(Expression[Position]))
+                    Word.Append(Expression[Position]);
+
+            // Because system decimal separator will be added below
+            else Word.Clear();
+
+            // Read the fractional part of number
+            if (Position < Expression.Length && Expression[Position] == DecimalSeparator)
+            {
+                // Add current system specific decimal separator
+                Word.Append(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+
+                while (++Position < Expression.Length
+                && Char.IsDigit(Expression[Position]))
+                    Word.Append(Expression[Position]);
+            }
+
+            // Read scientific notation (suffix)
+            if (Position + 1 < Expression.Length && Expression[Position] == 'e'
+                && (Char.IsDigit(Expression[Position + 1])
+                    || (Position + 2 < Expression.Length
+                        && (Expression[Position + 1] == '+'
+                            || Expression[Position + 1] == '-')
+                                && Char.IsDigit(Expression[Position + 2]))))
+            {
+                Word.Append(Expression[Position++]); // e
+
+                if (Expression[Position] == '+' || Expression[Position] == '-')
+                    Word.Append(Expression[Position++]); // sign
+
+                while (Position < Expression.Length && Char.IsDigit(Expression[Position]))
+                    Word.Append(Expression[Position++]); // power
+
+                // Convert number from scientific notation to decimal notation
+                return Convert.ToDouble(Word.ToString());
+            }
+
+            return Convert.ToDouble(Word.ToString());
         }
     }
 }
