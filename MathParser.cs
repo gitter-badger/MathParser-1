@@ -151,7 +151,7 @@ namespace MathParsing
 
                 // If it is an operator
                 if (IsOperatorDefined(Word.ToString()))
-                    Infix.Add(ParseOperator(Expression, ref Position, Word.ToString()));
+                    Infix.Add(ParseOperator(Expression, ref Position, Word));
 
                 else if (Char.IsLetter(Word[0]))
                 {
@@ -174,7 +174,7 @@ namespace MathParsing
 
                 else
                 {
-                    while (++Position < Expression.Length 
+                    while (++Position < Expression.Length
                         && !Char.IsLetterOrDigit(Expression[Position])
                         && Expression[Position] != '(')
                         Word.Append(Expression[Position]);
@@ -198,27 +198,44 @@ namespace MathParsing
             return Infix;
         }
 
-        Operator ParseOperator(string Expression, ref int Position, string Word)
+        Operator ParseOperator(string Expression, ref int Position, StringBuilder Word)
         {
-            // Determine whether it is unary or binary operator
-            bool IsUnary = Position == 0 || Expression[Position - 1] == '(' || IsOperatorDefined(Expression[Position - 1].ToString());
-            Position++;
-
-            if (IsUnary)
+            if (!Char.IsLetterOrDigit(Word[0])
+                && !Char.IsLetterOrDigit(Expression[Position + 1])
+                && Expression[Position + 1] != '(')
             {
-                foreach (var Op in EnumerateOperators())
-                    if (Op.IsUnaryOperator && Op.Keyword == Word)
-                        return Op;
+                while (++Position < Expression.Length
+                    && !Char.IsLetterOrDigit(Expression[Position])
+                    && Expression[Position] != '(')
+                    Word.Append(Expression[Position]);
 
-                throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
+                if (IsOperatorDefined(Word.ToString()))
+                    return FindOperator(Word.ToString());
+
+                else throw new ArgumentException("Unknown token in expression");
             }
             else
             {
-                foreach (var Op in EnumerateOperators())
-                    if (!Op.IsUnaryOperator && Op.Keyword == Word)
-                        return Op;
+                // Determine whether it is unary or binary operator
+                bool IsUnary = Position == 0 || Expression[Position - 1] == '(' || IsOperatorDefined(Expression[Position - 1].ToString());
+                Position++;
 
-                throw new FormatException("Token not defined");
+                if (IsUnary)
+                {
+                    foreach (var Op in EnumerateOperators())
+                        if (Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                            return Op;
+
+                    throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
+                }
+                else
+                {
+                    foreach (var Op in EnumerateOperators())
+                        if (!Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                            return Op;
+
+                    throw new FormatException("Token not defined");
+                }
             }
         }
 
