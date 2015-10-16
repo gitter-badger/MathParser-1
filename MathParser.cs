@@ -25,7 +25,7 @@ namespace MathParsing
         #region TokenSearch
         bool IsOperatorDefined(string Keyword)
         {
-            foreach (var Operator in CommonTokens.Operators.Union(Operators))
+            foreach (var Operator in CommonTokens.Operators.Union(Operators).Reverse())
                 if (Operator.Keyword == Keyword)
                     return true;
 
@@ -34,7 +34,7 @@ namespace MathParsing
 
         bool IsFunctionDefined(string Keyword)
         {
-            foreach (var Function in CommonTokens.Functions.Union(Functions))
+            foreach (var Function in CommonTokens.Functions.Union(Functions).Reverse())
                 if (Function.Keyword == Keyword)
                     return true;
 
@@ -43,7 +43,7 @@ namespace MathParsing
 
         bool IsVariableDefined(string Keyword)
         {
-            foreach (var Variable in Variables)
+            foreach (var Variable in ((IEnumerable<Variable>)Variables).Reverse())
                 if (Variable.Keyword == Keyword)
                     return true;
 
@@ -52,7 +52,7 @@ namespace MathParsing
 
         Operator FindOperator(string Keyword)
         {
-            foreach (var Operator in CommonTokens.Operators.Union(Operators))
+            foreach (var Operator in CommonTokens.Operators.Union(Operators).Reverse())
                 if (Operator.Keyword == Keyword) return Operator;
 
             throw new ArgumentException("Invalid Operator Token");
@@ -60,7 +60,7 @@ namespace MathParsing
 
         Function FindFunction(string Keyword)
         {
-            foreach (var Function in CommonTokens.Functions.Union(Functions))
+            foreach (var Function in CommonTokens.Functions.Union(Functions).Reverse())
                 if (Function.Keyword == Keyword) return Function;
 
             throw new ArgumentException("Invalid Function Token");
@@ -68,7 +68,7 @@ namespace MathParsing
 
         Variable FindVariable(string Keyword)
         {
-            foreach (var Variable in Variables)
+            foreach (var Variable in ((IEnumerable<Variable>)Variables).Reverse())
                 if (Variable.Keyword == Keyword) return Variable;
 
             throw new ArgumentException("Undefined Variable");
