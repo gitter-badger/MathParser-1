@@ -135,7 +135,7 @@ namespace MathParsing
             if (UnbalancedParanthesis != 0)
                 throw new FormatException("Number of left and right parenthesis is not equal");
 
-            return FormattedString.ToString().Replace(")(", ")*(");
+            return FormattedString.ToString();
         }
 
         List<Token> ParseInfix(string Expression)
