@@ -150,35 +150,8 @@ namespace MathParsing
 
                 // If it is an operator
                 if (IsOperatorDefined(Word.ToString()))
-                {
-                    // Determine whether it is unary or binary operator
-                    bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
-                    Position++;
+                    Infix.Add(ParseOperator(Expression, ref Position, Word));
 
-                    if (IsUnary)
-                    {
-                        bool Found = false;
-
-                        foreach (var Op in EnumerateOperators())
-                            if (Op.IsUnaryOperator && Op.Keyword == Word.ToString())
-                            {
-                                Infix.Add(Op);
-                                Found = true;
-                                break;
-                            }
-
-                        if (!Found) throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
-                    }
-                    else
-                    {
-                        foreach (var Op in EnumerateOperators())
-                            if (!Op.IsUnaryOperator && Op.Keyword == Word.ToString())
-                            {
-                                Infix.Add(Op);
-                                break;
-                            }
-                    }
-                }
                 else if (Char.IsLetter(Word[0]) || IsFunctionDefined(Word.ToString())
                             || CommonTokens.Constants.ContainsKey(Word.ToString()) || IsVariableDefined(Word.ToString()))
                 {
@@ -202,6 +175,30 @@ namespace MathParsing
             }
 
             return Infix;
+        }
+
+        Operator ParseOperator(string Expression, ref int Position, StringBuilder Word)
+        {
+            // Determine whether it is unary or binary operator
+            bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
+            Position++;
+
+            if (IsUnary)
+            {
+                foreach (var Op in EnumerateOperators())
+                    if (Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                        return Op;
+
+                throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
+            }
+            else
+            {
+                foreach (var Op in EnumerateOperators())
+                    if (!Op.IsUnaryOperator && Op.Keyword == Word.ToString())
+                        return Op;
+
+                throw new FormatException("Token not defined or Invalid Usage as NonUnary Operator");
+            }
         }
 
         Constant ParseNumber(string Expression, ref int Position, StringBuilder Word)
