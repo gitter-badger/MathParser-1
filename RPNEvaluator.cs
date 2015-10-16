@@ -3,18 +3,14 @@ using System.Collections.Generic;
 
 namespace MathParsing
 {
-    public class RPNEvaluator
+    public static class RPNEvaluator
     {
-        public AngleType AngleType { get; set; }
-
-        public RPNEvaluator(AngleType AngleType = AngleType.Radians) { this.AngleType = AngleType; }
-
         /// <summary>
         /// Calculate expression in reverse-polish notation
         /// </summary>
         /// <param name="RPNExpression">Math expression in reverse-polish notation</param>
         /// <returns>Result</returns>
-        public double Evaluate(List<Token> RPNExpression)
+        public static double Evaluate(List<Token> RPNExpression, AngleType AngleType = AngleType.Radians)
         {
             var Stack = new Stack<double>(); // Contains operands
 

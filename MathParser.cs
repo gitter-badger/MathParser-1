@@ -10,12 +10,10 @@ namespace MathParsing
     {
         #region Fields
         public List<Token> RPNExpression { get; private set; }
-
-        RPNEvaluator Evaluator;
-
+        
         public char DecimalSeparator { get; set; }
 
-        public AngleType AngleType { get { return Evaluator.AngleType; } set { Evaluator.AngleType = value; } }
+        public AngleType AngleType { get; set; }
 
         public readonly List<Operator> Operators = new List<Operator>();
 
@@ -86,7 +84,7 @@ namespace MathParsing
             try { DecimalSeparator = Char.Parse(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator); }
             catch (FormatException) { DecimalSeparator = '.'; }
 
-            Evaluator = new RPNEvaluator(AngleType);
+            this.AngleType = AngleType;
         }
 
         /// <summary>
@@ -99,7 +97,7 @@ namespace MathParsing
         {
             if (RPNExpression == null) throw new ArgumentNullException("RPN has not been Generated");
 
-            return Evaluator.Evaluate(RPNExpression);
+            return RPNEvaluator.Evaluate(RPNExpression);
         }
 
         public double Evaluate(string Expression)
