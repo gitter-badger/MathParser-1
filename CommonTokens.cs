@@ -28,7 +28,13 @@ namespace MathParsing
                 new BinaryOperator("*", 4, (x, y) => x * y),
                 new BinaryOperator("/", 4, (x, y) => x / y),
                 new BinaryOperator("^", 8, Math.Pow),
-                new BinaryOperator("%", 8, (x, y) => x % y)
+                new BinaryOperator("%", 8, (x, y) => x % y),
+                new ComparisonOperator("==", 0, (x, y) => x == y),
+                new ComparisonOperator("!=", 0, (x, y) => x != y),
+                new ComparisonOperator(">", 0, (x, y) => x > y),
+                new ComparisonOperator("<", 0, (x, y) => x < y),
+                new ComparisonOperator(">=", 0, (x, y) => x >= y),
+                new ComparisonOperator("<=", 0, (x, y) => x <= y)
             };
 
         public static readonly List<Function> Functions =

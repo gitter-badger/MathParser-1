@@ -18,13 +18,6 @@ namespace MathParsing
         }
 
         public bool Invoke(double Arg1, double Arg2) { return Procedure(Arg1, Arg2); }
-
-        public static readonly ComparisonOperator EqualTo = new ComparisonOperator("==", 0, (x, y) => x == y),
-            NotEqualTo = new ComparisonOperator("!=", 0, (x, y) => x != y),
-            GreaterThan = new ComparisonOperator(">", 0, (x, y) => x > y),
-            LessThan = new ComparisonOperator("<", 0, (x, y) => x < y),
-            GreaterThanOrEqualTo = new ComparisonOperator(">=", 0, (x, y) => x >= y),
-            LessThanOrEqualTo = new ComparisonOperator("<=", 0, (x, y) => x <= y);
     }
 
     class BinaryBooleanOperator : BooleanOperator
