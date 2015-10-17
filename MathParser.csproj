@@ -8,7 +8,7 @@
     <ProjectGuid>{54750D18-F292-45B4-ACBF-1158EA461B42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MathParser</RootNamespace>
+    <RootNamespace>MathParsing</RootNamespace>
     <AssemblyName>MathParser</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,8 +37,14 @@
     <Compile Include="AngleType.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="CommonTokens.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="MathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RPNEvaluator.cs" />
     <Compile Include="RPNGenerator.cs" />
     <Compile Include="Tokens\Conditional\Boolean.cs" />
@@ -59,7 +65,13 @@
     <Compile Include="Tokens\Variable.cs" />
     <Compile Include="Tokens\Token Base.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

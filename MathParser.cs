@@ -143,7 +143,7 @@ namespace MathParsing
         GeneratedMethod GenerateMethod(params Variable[] Parameters)
         {
             foreach (var Param in Parameters)
-                if (!IsVariableDefined(Param.Keyword)) 
+                if (!IsVariableDefined(Param.Keyword))
                     throw new ArgumentException("Use of Undefined Variable");
 
             return (VariableValues) =>
@@ -189,24 +189,24 @@ namespace MathParsing
                 else if (Char.IsDigit(Word[0]) || Word[0] == DecimalSeparator)
                     Infix.Add(ParseNumber(Expression, ref Position, Word));
 
+                else if (IsFunctionDefined(Word.ToString()))
+                    Infix.Add(FindFunction(Word.ToString()));
+
+                else if (IsVariableDefined(Word.ToString()))
+                    Infix.Add(FindVariable(Word.ToString()));
+
+                else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
+                    Infix.Add(CommonTokens.Constants[Word.ToString()]);
+
                 else
                 {
                     while (++Position < Expression.Length
                         && !Char.IsLetterOrDigit(Expression[Position])
-                        && Expression[Position] != '(')
+                        && !Expression[Position].Is('(', ')', ','))
                         Word.Append(Expression[Position]);
 
                     if (IsOperatorDefined(Word.ToString()))
                         Infix.Add(FindOperator(Word.ToString()));
-
-                    else if (IsFunctionDefined(Word.ToString()))
-                        Infix.Add(FindFunction(Word.ToString()));
-
-                    else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
-                        Infix.Add(CommonTokens.Constants[Word.ToString()]);
-
-                    else if (IsVariableDefined(Word.ToString()))
-                        Infix.Add(FindVariable(Word.ToString()));
 
                     else throw new ArgumentException("Unknown token in expression");
                 }
@@ -217,7 +217,7 @@ namespace MathParsing
 
         Operator ParseOperator(string Expression, ref int Position, StringBuilder Word)
         {
-            if (Word[0] == '(' || Word[0] == ')' || Word[0] == ',')
+            if (Word[0].Is('(', ')', ','))
             {
                 ++Position;
                 return FindOperator(Word.ToString());
@@ -225,11 +225,11 @@ namespace MathParsing
 
             else if (!Char.IsLetterOrDigit(Word[0])
                 && !Char.IsLetterOrDigit(Expression[Position + 1])
-                && Expression[Position + 1] != '(')
+                && !Expression[Position + 1].Is('(', ')', ','))
             {
                 while (++Position < Expression.Length
                     && !Char.IsLetterOrDigit(Expression[Position])
-                    && Expression[Position] != '(')
+                    && !Expression[Position].Is('(', ')', ','))
                     Word.Append(Expression[Position]);
 
                 if (IsOperatorDefined(Word.ToString()))

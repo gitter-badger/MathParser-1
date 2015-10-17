@@ -26,7 +26,7 @@ namespace MathParsing
                 Plus,
                 Minus,
                 new BinaryOperator("*", 6, (x, y) => x * y),
-                new BinaryOperator("/", 6, (x, y) => x / y),
+                new BinaryOperator("/", 7, (x, y) => x / y),
                 new BinaryOperator("^", 10, Math.Pow),
                 new BinaryOperator("%", 10, (x, y) => x % y),
                 new ComparisonOperator("==", 3, (x, y) => x == y),
