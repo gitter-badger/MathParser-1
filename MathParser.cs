@@ -98,7 +98,7 @@ namespace MathParsing
         /// Parses the given math expression and Caches it in RPN
         /// </summary>
         /// <param name="Expression">Math expression (infix/standard notation)</param>
-        public void Parse(string Expression) { RPNExpression = RPNGenerator.Generate(ParseInfix(FormatString(Expression))); }
+        public void Parse(string Expression) { RPNExpression = RPNGenerator.Generate(Tokenize(FormatString(Expression))); }
 
         public double Evaluate()
         {
@@ -137,9 +137,7 @@ namespace MathParsing
 
             return FormattedString.ToString();
         }
-
-        public delegate double GeneratedMethod(params double[] VariableValues);
-
+        
         GeneratedMethod GenerateMethod(params Variable[] Parameters)
         {
             foreach (var Param in Parameters)
@@ -155,7 +153,7 @@ namespace MathParsing
                 };
         }
 
-        List<Token> ParseInfix(string Expression)
+        List<Token> Tokenize(string Expression)
         {
             int Position = 0;
             var Infix = new List<Token>();
