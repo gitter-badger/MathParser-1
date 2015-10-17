@@ -1,10 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using MathParsing.Properties;
 
 namespace MathParsing
 {
     internal static class CommonTokens
     {
+        static CommonTokens()
+        {
+            foreach (var Const in Constants)
+            {
+                string Keyword = Const.Key;
+
+                if (Char.IsLetter(Keyword[0]))
+                {
+                    foreach (var Character in Keyword)
+                        if (!Char.IsLetter(Character))
+                            throw new FormatException(Resources.ConstantFormatError);
+                }
+                else
+                {
+                    if (Keyword.Length != 1 || Keyword[0].Is(')', '(', ',') || Char.IsDigit(Keyword[0]))
+                        throw new FormatException(Resources.ConstantFormatError);
+                }
+            }
+        }
+
         public static readonly Operator LeftParenthesis = new Operator("("),
             RightParenthesis = new Operator(")"),
             Comma = new Operator(",");

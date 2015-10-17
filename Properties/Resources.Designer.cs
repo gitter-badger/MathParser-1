@@ -61,7 +61,16 @@ namespace MathParsing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Variable Name should consist either only Letters or only Sigle Special Character excluding `(`, `)`, and `,`.
+        ///   Looks up a localized string similar to A Constant Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`.
+        /// </summary>
+        internal static string ConstantFormatError {
+            get {
+                return ResourceManager.GetString("ConstantFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Variable Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`.
         /// </summary>
         internal static string VariableFormatError {
             get {

@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConstantFormatError" xml:space="preserve">
+    <value>A Constant Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`</value>
+  </data>
   <data name="VariableFormatError" xml:space="preserve">
-    <value>A Variable Name should consist either only Letters or only Sigle Special Character excluding `(`, `)`, and `,`</value>
+    <value>A Variable Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`</value>
   </data>
 </root>
