@@ -138,6 +138,23 @@ namespace MathParsing
             return FormattedString.ToString();
         }
 
+        public delegate double GeneratedMethod(params double[] VariableValues);
+
+        GeneratedMethod GenerateMethod(params Variable[] Parameters)
+        {
+            foreach (var Param in Parameters)
+                if (!IsVariableDefined(Param.Keyword)) 
+                    throw new ArgumentException("Use of Undefined Variable");
+
+            return (VariableValues) =>
+                {
+                    for (int i = 0; i < Parameters.Length; ++i)
+                        Parameters[i].Value = VariableValues[i];
+
+                    return Evaluate();
+                };
+        }
+
         List<Token> ParseInfix(string Expression)
         {
             int Position = 0;
