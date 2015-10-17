@@ -63,6 +63,7 @@
     <Compile Include="Tokens\Operators\UnaryOperator.cs" />
     <Compile Include="Tokens\Operators\BinaryOperator.cs" />
     <Compile Include="Tokens\Operators\Operator Base.cs" />
+    <Compile Include="Tokens\Punctuation.cs" />
     <Compile Include="Tokens\Variable.cs" />
     <Compile Include="Tokens\Token Base.cs" />
   </ItemGroup>

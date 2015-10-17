@@ -12,15 +12,15 @@ namespace MathParsing
 
             foreach (var Token in Input)
             {
-                if (Token == CommonTokens.Comma)
+                if (Token == Punctuation.Comma)
                 {
                     Token Peek;
                     while (Stack.Count > 0)
                     {
                         Peek = Stack.Peek();
 
-                        if (Peek == CommonTokens.LeftParenthesis) break;
-                        if (Peek == CommonTokens.Comma)
+                        if (Peek == Punctuation.LeftParenthesis) break;
+                        if (Peek == Punctuation.Comma)
                         {
                             Stack.Pop();
                             break;
@@ -29,7 +29,7 @@ namespace MathParsing
                         Output.Add(Stack.Pop());
                     }
 
-                    Stack.Push(CommonTokens.Comma);
+                    Stack.Push(Punctuation.Comma);
                 }
 
                 // If it's a number just put to list           
@@ -43,14 +43,14 @@ namespace MathParsing
                 }
 
                 // If its '(' push to stack
-                else if (Token == CommonTokens.LeftParenthesis) Stack.Push(Token);
+                else if (Token == Punctuation.LeftParenthesis) Stack.Push(Token);
 
-                else if (Token == CommonTokens.RightParenthesis)
+                else if (Token == Punctuation.RightParenthesis)
                 {
                     // If its ')' pop elements from stack to output list
                     // until find the '('
                     Token Element;
-                    while ((Element = Stack.Pop()) != CommonTokens.LeftParenthesis) Output.Add(Element);
+                    while ((Element = Stack.Pop()) != Punctuation.LeftParenthesis) Output.Add(Element);
 
                     // if after this a function is in the peek of stack then put it to list
                     if (Stack.Count > 0 && Stack.Peek().IsFunction)

@@ -4,7 +4,7 @@ using MathParsing.Properties;
 
 namespace MathParsing
 {
-    internal static class CommonTokens
+    static class CommonTokens
     {
         static CommonTokens()
         {
@@ -25,11 +25,7 @@ namespace MathParsing
                 }
             }
         }
-
-        public static readonly Operator LeftParenthesis = new Operator("("),
-            RightParenthesis = new Operator(")"),
-            Comma = new Operator(",");
-
+        
         public static readonly UnaryOperator UnaryPlus = new UnaryOperator('+', 8, (x) => x),
             UnaryMinus = new UnaryOperator('-', 8, (x) => -x);
 
@@ -39,9 +35,6 @@ namespace MathParsing
         public static readonly List<Operator> Operators =
             new List<Operator>
             {
-                LeftParenthesis,
-                RightParenthesis,
-                Comma,
                 UnaryPlus,
                 UnaryMinus,
                 Plus,

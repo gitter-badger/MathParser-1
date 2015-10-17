@@ -42,7 +42,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryOperator).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.GetType() == typeof(ComparisonOperator))
+                else if (Token.Is(typeof(ComparisonOperator)))
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -58,7 +58,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryFunction).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.GetType() == typeof(BinaryBooleanOperator))
+                else if (Token.Is(typeof(BinaryBooleanOperator)))
                 {
                     Boolean Argument2 = Stack.Pop();
                     Boolean Argument1 = Stack.Pop();
@@ -75,7 +75,7 @@ namespace MathParsing
                     Stack.Push((Token as TernaryFunction).Invoke(Argument1, Argument2, Argument3));
                 }
 
-                else if (Token.GetType() == typeof(IfFunction))
+                else if (Token.Is(typeof(IfFunction)))
                 {
                     double Argument3 = Stack.Pop();
                     double Argument2 = Stack.Pop();

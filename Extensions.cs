@@ -1,4 +1,6 @@
-﻿namespace MathParsing
+﻿using System;
+
+namespace MathParsing
 {
     static class Extensions
     {
@@ -10,5 +12,7 @@
 
             return false;
         }
+
+        public static bool Is<T>(this T Obj, Type Type) { return Obj.GetType() == Type; }
     }
 }

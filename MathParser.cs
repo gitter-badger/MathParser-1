@@ -137,7 +137,7 @@ namespace MathParsing
 
             return FormattedString.ToString();
         }
-        
+
         GeneratedMethod GenerateMethod(params Variable[] Parameters)
         {
             foreach (var Param in Parameters)
@@ -164,8 +164,14 @@ namespace MathParsing
                 StringBuilder Word = new StringBuilder();
                 Word.Append(Expression[Position]);
 
+                if (Word[0].Is('(', ',', ')')) ++Position;
+
+                if (Word[0] == '(') Infix.Add(Punctuation.LeftParenthesis);
+                else if (Word[0] == ',') Infix.Add(Punctuation.Comma);
+                else if (Word[0] == ')') Infix.Add(Punctuation.RightParenthesis);
+
                 // If it is an operator
-                if (IsOperatorDefined(Word.ToString()))
+                else if (IsOperatorDefined(Word.ToString()))
                     Infix.Add(ParseOperator(Expression, ref Position, Word));
 
                 else if (Char.IsLetter(Word[0]))
