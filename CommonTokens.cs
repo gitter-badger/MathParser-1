@@ -97,7 +97,9 @@ namespace MathParsing
             new Dictionary<string, Constant>
             {
                 {"pi", Math.PI },
-                {"e", Math.E }
+                {"e", Math.E },
+                {"true", 1},
+                {"false", 0}
             };
     }
 }
