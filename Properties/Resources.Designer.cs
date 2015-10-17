@@ -79,7 +79,7 @@ namespace MathParsing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Operator Name should consist either only of Letters or only of Special Characters excluding `(`, `)`, and `,`.
+        ///   Looks up a localized string similar to An Operator Name should consist either only of Letters or only of Special Characters excluding `(`, `)`, and `,`.
         /// </summary>
         internal static string OperatorFormatError {
             get {

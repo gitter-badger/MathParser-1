@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MathParser")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A MathParser supporting User-Defined Functions, Operators, Variables, Conditional Operators and more")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Mathew Sachin")]
 [assembly: AssemblyProduct("MathParser")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2015 Mathew Sachin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
