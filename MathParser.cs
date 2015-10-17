@@ -287,13 +287,12 @@ namespace MathParsing
             if (Position + 1 < Expression.Length && Expression[Position] == 'e'
                 && (Char.IsDigit(Expression[Position + 1])
                     || (Position + 2 < Expression.Length
-                        && (Expression[Position + 1] == '+'
-                            || Expression[Position + 1] == '-')
+                        && Expression[Position + 1].Is('+', '-')
                                 && Char.IsDigit(Expression[Position + 2]))))
             {
                 Word.Append(Expression[Position++]); // e
 
-                if (Expression[Position] == '+' || Expression[Position] == '-')
+                if (Expression[Position].Is('+', '-'))
                     Word.Append(Expression[Position++]); // sign
 
                 while (Position < Expression.Length && Char.IsDigit(Expression[Position]))

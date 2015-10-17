@@ -70,6 +70,24 @@ namespace MathParsing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A Function Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`.
+        /// </summary>
+        internal static string FunctionFormatError {
+            get {
+                return ResourceManager.GetString("FunctionFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Operator Name should consist either only of Letters or only of Special Characters excluding `(`, `)`, and `,`.
+        /// </summary>
+        internal static string OperatorFormatError {
+            get {
+                return ResourceManager.GetString("OperatorFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A Variable Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`.
         /// </summary>
         internal static string VariableFormatError {

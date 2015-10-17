@@ -120,6 +120,12 @@
   <data name="ConstantFormatError" xml:space="preserve">
     <value>A Constant Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`</value>
   </data>
+  <data name="FunctionFormatError" xml:space="preserve">
+    <value>A Function Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`</value>
+  </data>
+  <data name="OperatorFormatError" xml:space="preserve">
+    <value>A Operator Name should consist either only of Letters or only of Special Characters excluding `(`, `)`, and `,`</value>
+  </data>
   <data name="VariableFormatError" xml:space="preserve">
     <value>A Variable Name should consist either only of Letters or only a single Special Character excluding `(`, `)`, and `,`</value>
   </data>
