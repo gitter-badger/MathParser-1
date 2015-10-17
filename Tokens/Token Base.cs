@@ -14,30 +14,6 @@
 
         public override string ToString() { return Keyword; }
 
-        #region Type Validation
-        public bool IsNumber { get { return GetType() == typeof(Constant); } }
-
-        public bool IsVariable { get { return GetType() == typeof(Variable); } }
-
-        public bool IsOperator { get { return GetType().IsSubclassOf(typeof(Operator)); } }
-
-        public bool IsUnaryOperator { get { return GetType() == typeof(UnaryOperator); } }
-
-        public bool IsBinaryOperator { get { return GetType() == typeof(BinaryOperator); } }
-
-        public bool IsUnaryFunction { get { return GetType() == typeof(UnaryFunction); } }
-
-        public bool IsPostfixFunction { get { return GetType() == typeof(PostfixFunction); } }
-
-        public bool IsBinaryFuncion { get { return GetType() == typeof(BinaryFunction); } }
-
-        public bool IsTernaryFuncion { get { return GetType() == typeof(TernaryFunction); } }
-
-        public bool IsFunction { get { return GetType().IsSubclassOf(typeof(Function)); } }
-
-        public bool IsTrigonometricFunction { get { return GetType() == typeof(TrigonometricFunction); } }
-        #endregion
-
         public override bool Equals(object obj)
         {
             return (obj is Token) ? (obj as Token).Keyword == Keyword : false;

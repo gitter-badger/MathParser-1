@@ -18,23 +18,23 @@ namespace MathParsing
             foreach (var Token in RPNExpression)
             {
                 // if it's operand then just push it to stack
-                if (Token.IsNumber)
+                if (Token.Is(typeof(Constant)))
                     Stack.Push((Constant)Token);
 
-                else if (Token.IsVariable)
+                else if (Token.Is(typeof(Variable)))
                     Stack.Push(((Variable)Token).Value);
 
                 // Otherwise apply operator or function to elements in stack
-                else if (Token.IsUnaryOperator)
+                else if (Token.Is(typeof(UnaryOperator)))
                     Stack.Push((Token as UnaryOperator).Invoke(Stack.Pop()));
 
-                else if (Token.IsTrigonometricFunction)
+                else if (Token.Is(typeof(TrigonometricFunction)))
                     Stack.Push((Token as TrigonometricFunction).Invoke(Stack.Pop(), AngleType));
 
-                else if (Token.IsUnaryFunction || Token.IsPostfixFunction)
+                else if (Token.Is(typeof(UnaryFunction), typeof(PostfixFunction)))
                     Stack.Push((Token as UnaryFunction).Invoke(Stack.Pop()));
 
-                else if (Token.IsBinaryOperator)
+                else if (Token.Is(typeof(BinaryOperator)))
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -50,7 +50,7 @@ namespace MathParsing
                     Stack.Push((Boolean)((Token as ComparisonOperator).Invoke(Argument1, Argument2)));
                 }
 
-                else if (Token.IsBinaryFuncion)
+                else if (Token.Is(typeof(BinaryFunction)))
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -66,7 +66,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryBooleanOperator).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.IsTernaryFuncion)
+                else if (Token.Is(typeof(TernaryFunction)))
                 {
                     double Argument3 = Stack.Pop();
                     double Argument2 = Stack.Pop();
