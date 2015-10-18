@@ -160,13 +160,22 @@ namespace MathParsing
                     Infix.Add(ParseNumber(Expression, ref Position, Word));
 
                 else if (IsDefined(Word.ToString(), EnumerateFunctions()))
+                {
+                    ++Position;
                     Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
+                }
 
                 else if (IsDefined(Word.ToString(), EnumerateVariables()))
+                {
+                    ++Position;
                     Infix.Add(Find(Word.ToString(), EnumerateVariables()));
+                }
 
                 else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
+                {
+                    ++Position;
                     Infix.Add(CommonTokens.Constants[Word.ToString()]);
+                }
 
                 else
                 {
