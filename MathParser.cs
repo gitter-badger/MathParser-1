@@ -25,11 +25,12 @@ namespace MathParsing
         #region TokenSearch
         bool IsDefined(string Keyword, IEnumerable<Token> Collection)
         {
-            foreach (var Token in Collection)
-                if (Token.Keyword == Keyword)
-                    return true;
-
-            return false;
+            try
+            {
+                Find(Keyword, Collection);
+                return true;
+            }
+            catch { return false; }
         }
 
         Token Find(string Keyword, IEnumerable<Token> Collection)
