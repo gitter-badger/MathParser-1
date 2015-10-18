@@ -102,7 +102,7 @@ namespace MathParsing
             if (UnbalancedParanthesis != 0)
                 throw new FormatException("Number of left and right parenthesis is not equal");
 
-            return FormattedString.ToString();
+            return FormattedString.ToString().Replace(")(", ")*(");
         }
 
         GeneratedMethod GenerateMethod(params Variable[] Parameters)
@@ -147,12 +147,18 @@ namespace MathParsing
                     while (++Position < Expression.Length && Char.IsLetter(Expression[Position]))
                         Word.Append(Expression[Position]);
 
+                    // Function
                     if (IsDefined(Word.ToString(), EnumerateFunctions()))
                         Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
+                    // Constant
                     else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
                         Infix.Add(CommonTokens.Constants[Word.ToString()]);
+                    // Variable
                     else if (IsDefined(Word.ToString(), EnumerateVariables()))
+                    {
+                        if (Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                         Infix.Add(Find(Word.ToString(), EnumerateVariables()));
+                    }
                     else throw new ArgumentException("Unknown token");
                 }
 

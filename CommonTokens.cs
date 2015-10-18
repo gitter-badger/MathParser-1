@@ -30,7 +30,8 @@ namespace MathParsing
             UnaryMinus = new UnaryOperator('-', 8, (x) => -x);
 
         public static readonly BinaryOperator Plus = new BinaryOperator("+", 4, (x, y) => x + y),
-                Minus = new BinaryOperator("-", 4, (x, y) => x - y);
+                Minus = new BinaryOperator("-", 4, (x, y) => x - y),
+                Multiply = new BinaryOperator("*", 6, (x, y) => x * y);
 
         public static readonly List<Operator> Operators =
             new List<Operator>
@@ -39,7 +40,7 @@ namespace MathParsing
                 UnaryMinus,
                 Plus,
                 Minus,
-                new BinaryOperator("*", 6, (x, y) => x * y),
+                Multiply,
                 new BinaryOperator("/", 7, (x, y) => x / y),
                 new BinaryOperator("^", 10, Math.Pow),
                 new BinaryOperator("%", 10, (x, y) => x % y),
