@@ -33,7 +33,7 @@ namespace MathParsing
                 }
 
                 // If it's a number just put to list           
-                else if (Token.Is(typeof(Constant), typeof(Variable))) Output.Add(Token);
+                else if (Token is Constant || Token is Variable) Output.Add(Token);
 
                 // if it's a function push to stack
                 else if (Token is Function)
