@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class ComparisonOperator : BooleanOperator
+    public sealed class ComparisonOperator : BooleanOperator
     {
         Func<double, double, bool> Procedure;
 

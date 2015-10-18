@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class BinaryFunction : Function
+    public sealed class BinaryFunction : Function
     {
         Func<double, double, double> Procedure;
 

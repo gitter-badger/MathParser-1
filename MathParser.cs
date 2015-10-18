@@ -225,7 +225,7 @@ namespace MathParsing
                 if (IsUnary)
                 {
                     foreach (var Op in EnumerateOperators())
-                        if (Op.Is(typeof(UnaryOperator)) && Op.Keyword == Word.ToString())
+                        if (Op is UnaryOperator && Op.Keyword == Word.ToString())
                             return Op;
 
                     throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
@@ -233,7 +233,7 @@ namespace MathParsing
                 else
                 {
                     foreach (var Op in EnumerateOperators())
-                        if (!Op.Is(typeof(UnaryOperator)) && Op.Keyword == Word.ToString())
+                        if (!(Op is UnaryOperator) && Op.Keyword == Word.ToString())
                             return Op;
 
                     throw new FormatException("Token not defined");

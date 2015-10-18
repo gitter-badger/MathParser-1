@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class TrigonometricFunction : UnaryFunction
+    public sealed class TrigonometricFunction : UnaryFunction
     {
         public TrigonometricFunction(string Keyword, Func<double, double> Procedure)
             : base(Keyword, Procedure) { }

@@ -3,7 +3,7 @@ using MathParsing.Properties;
 
 namespace MathParsing
 {
-    public class Variable : Token
+    public sealed class Variable : Token
     {
         public double Value { get; set; }
 

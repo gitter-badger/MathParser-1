@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class BinaryBooleanOperator : BooleanOperator
+    public sealed class BinaryBooleanOperator : BooleanOperator
     {
         Func<bool, bool, bool> Procedure;
 

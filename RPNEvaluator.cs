@@ -18,23 +18,23 @@ namespace MathParsing
             foreach (var Token in RPNExpression)
             {
                 // if it's operand then just push it to stack
-                if (Token.Is(typeof(Constant)))
+                if (Token is Constant)
                     Stack.Push((Constant)Token);
 
-                else if (Token.Is(typeof(Variable)))
+                else if (Token is Variable)
                     Stack.Push(((Variable)Token).Value);
 
                 // Otherwise apply operator or function to elements in stack
-                else if (Token.Is(typeof(UnaryOperator)))
+                else if (Token is UnaryOperator)
                     Stack.Push((Token as UnaryOperator).Invoke(Stack.Pop()));
 
-                else if (Token.Is(typeof(TrigonometricFunction)))
+                else if (Token is TrigonometricFunction)
                     Stack.Push((Token as TrigonometricFunction).Invoke(Stack.Pop(), AngleType));
 
-                else if (Token.Is(typeof(UnaryFunction), typeof(PostfixFunction)))
+                else if (Token is UnaryFunction)
                     Stack.Push((Token as UnaryFunction).Invoke(Stack.Pop()));
 
-                else if (Token.Is(typeof(BinaryOperator)))
+                else if (Token is BinaryOperator)
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -42,7 +42,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryOperator).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.Is(typeof(ComparisonOperator)))
+                else if (Token is ComparisonOperator)
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -50,7 +50,7 @@ namespace MathParsing
                     Stack.Push((Boolean)((Token as ComparisonOperator).Invoke(Argument1, Argument2)));
                 }
 
-                else if (Token.Is(typeof(BinaryFunction)))
+                else if (Token is BinaryFunction)
                 {
                     double Argument2 = Stack.Pop();
                     double Argument1 = Stack.Pop();
@@ -58,7 +58,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryFunction).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.Is(typeof(BinaryBooleanOperator)))
+                else if (Token is BinaryBooleanOperator)
                 {
                     Boolean Argument2 = Stack.Pop();
                     Boolean Argument1 = Stack.Pop();
@@ -66,7 +66,7 @@ namespace MathParsing
                     Stack.Push((Token as BinaryBooleanOperator).Invoke(Argument1, Argument2));
                 }
 
-                else if (Token.Is(typeof(TernaryFunction)))
+                else if (Token is TernaryFunction)
                 {
                     double Argument3 = Stack.Pop();
                     double Argument2 = Stack.Pop();
@@ -75,7 +75,7 @@ namespace MathParsing
                     Stack.Push((Token as TernaryFunction).Invoke(Argument1, Argument2, Argument3));
                 }
 
-                else if (Token.Is(typeof(IfFunction)))
+                else if (Token is IfFunction)
                 {
                     double Argument3 = Stack.Pop();
                     double Argument2 = Stack.Pop();

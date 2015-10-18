@@ -1,6 +1,6 @@
 ﻿namespace MathParsing
 {
-    class Punctuation : Token
+    sealed class Punctuation : Token
     {
         Punctuation(string Keyword) : base(Keyword, 0) { }
 

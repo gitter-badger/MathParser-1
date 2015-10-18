@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class TernaryFunction : Function
+    public sealed class TernaryFunction : Function
     {
         Func<double, double, double, double> Procedure;
 

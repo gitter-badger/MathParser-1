@@ -1,6 +1,6 @@
 ﻿namespace MathParsing
 {
-    public class Boolean : Token
+    public sealed class Boolean : Token
     {
         Boolean(bool Keyword) : base(Keyword.ToString(), 0) { }
 

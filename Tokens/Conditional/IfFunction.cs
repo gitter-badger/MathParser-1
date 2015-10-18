@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class IfFunction : Function
+    public sealed class IfFunction : Function
     {
         IfFunction(string Keyword) : base(Keyword, 3) { }
 

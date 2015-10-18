@@ -36,9 +36,9 @@ namespace MathParsing
                 else if (Token.Is(typeof(Constant), typeof(Variable))) Output.Add(Token);
 
                 // if it's a function push to stack
-                else if (Token.DerivesFrom(typeof(Function)))
+                else if (Token is Function)
                 {
-                    if (Token.Is(typeof(PostfixFunction))) Output.Add(Token);
+                    if (Token is PostfixFunction) Output.Add(Token);
                     else Stack.Push(Token);
                 }
 
@@ -53,7 +53,7 @@ namespace MathParsing
                     while ((Element = Stack.Pop()) != Punctuation.LeftParenthesis) Output.Add(Element);
 
                     // if after this a function is in the peek of stack then put it to list
-                    if (Stack.Count > 0 && Stack.Peek().DerivesFrom(typeof(Function)))
+                    if (Stack.Count > 0 && Stack.Peek() is Function)
                         Output.Add(Stack.Pop());
                 }
                 else
@@ -71,7 +71,7 @@ namespace MathParsing
             while (Stack.Count > 0)
             {
                 // There should be only operators
-                if (Stack.Peek().DerivesFrom(typeof(Operator))) Output.Add(Stack.Pop());
+                if (Stack.Peek() is Operator) Output.Add(Stack.Pop());
                 else throw new FormatException("Format exception, there is function without parenthesis");
             }
 

@@ -1,6 +1,6 @@
 ﻿namespace MathParsing
 {
-    public class Constant : Token
+    public sealed class Constant : Token
     {
         Constant(double Value) : base(Value.ToString(), 0) { }
 

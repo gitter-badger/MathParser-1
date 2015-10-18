@@ -2,7 +2,7 @@
 
 namespace MathParsing
 {
-    public class BinaryOperator : Operator
+    public sealed class BinaryOperator : Operator
     {
         Func<double, double, double> Function;
 
