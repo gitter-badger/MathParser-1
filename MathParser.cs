@@ -133,7 +133,16 @@ namespace MathParsing
 
                 if (Word[0].Is('(', ',', ')')) ++Position;
 
-                if (Word[0] == '(') Infix.Add(Punctuation.LeftParenthesis);
+                if (Word[0] == '(')
+                {
+                    if (Infix.Count > 0)
+                    {
+                        var Last = Infix.Last();
+                        if (Last is Constant || Last is Variable) Infix.Add(CommonTokens.Multiply);
+                    }
+                    Infix.Add(Punctuation.LeftParenthesis);
+                }
+
                 else if (Word[0] == ',') Infix.Add(Punctuation.Comma);
                 else if (Word[0] == ')') Infix.Add(Punctuation.RightParenthesis);
 
@@ -149,14 +158,19 @@ namespace MathParsing
 
                     // Function
                     if (IsDefined(Word.ToString(), EnumerateFunctions()))
+                    {
+                        if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                         Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
+                    }
+
                     // Constant
                     else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
                         Infix.Add(CommonTokens.Constants[Word.ToString()]);
+
                     // Variable
                     else if (IsDefined(Word.ToString(), EnumerateVariables()))
                     {
-                        if (Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
+                        if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                         Infix.Add(Find(Word.ToString(), EnumerateVariables()));
                     }
                     else throw new ArgumentException("Unknown token");
@@ -168,12 +182,14 @@ namespace MathParsing
 
                 else if (IsDefined(Word.ToString(), EnumerateFunctions()))
                 {
+                    if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                     ++Position;
                     Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
                 }
 
                 else if (IsDefined(Word.ToString(), EnumerateVariables()))
                 {
+                    if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                     ++Position;
                     Infix.Add(Find(Word.ToString(), EnumerateVariables()));
                 }
