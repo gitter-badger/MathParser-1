@@ -44,7 +44,35 @@ namespace MathParsing.Scripting
                     DeclareVariable(Statement);
                 else if (Statement.StartsWith("return"))
                     return P.Evaluate(Statement.Remove(0, 6));
-                else throw new Exception("Unsupported Statement");
+                else
+                {
+                    //Read Variable Name
+                    string VarName = null;
+
+                    while (Char.IsLetter(Statement[0]))
+                    {
+                        VarName += Statement[0];
+                        Statement = Statement.Remove(0, 1);
+                    }
+
+                    Statement = Statement.Trim();
+
+                    if (!P.IsDefined(VarName, P.EnumerateVariables())) throw new Exception("Unsupported Statement");
+
+                    string Operator = null;
+
+                    while (Statement[0] != '=')
+                    {
+                        Operator += Statement[0];
+                        Statement = Statement.Remove(0, 1);
+                    }
+
+                    Operator += '=';
+                    Statement = Statement.Remove(0, Statement.IndexOf('=') + 1);
+
+                    ScriptingOperators.VariableAssignmentOperators[Operator]
+                        .Invoke(P.Variables.Find((V) => V.Keyword == VarName), P.Evaluate(Statement));
+                }
             }
 
             return double.NaN;

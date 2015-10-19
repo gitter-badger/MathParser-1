@@ -23,7 +23,7 @@ namespace MathParsing
         #endregion
 
         #region TokenSearch
-        bool IsDefined(string Keyword, IEnumerable<Token> Collection)
+        internal bool IsDefined(string Keyword, IEnumerable<Token> Collection)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace MathParsing
 
         IEnumerable<Operator> EnumerateOperators() { return CommonTokens.Operators.Union(Operators).Reverse(); }
 
-        IEnumerable<Variable> EnumerateVariables() { return ((IEnumerable<Variable>)Variables).Reverse(); }
+        public IEnumerable<Variable> EnumerateVariables() { return ((IEnumerable<Variable>)Variables).Reverse(); }
         #endregion
 
         /// <summary>
