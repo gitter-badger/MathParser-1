@@ -14,8 +14,8 @@ namespace ScriptApp
             InitializeComponent();
 
             CommandBindings.Add(new CommandBinding(NavigationCommands.Refresh,
-                (s, e) => ResultBox.Content = new Script().Run(CodeBox.Text)));
-                
+                (s, e) => ResultBox.Content = new Script().Run(CodeBox.Text),
+                (s, e) => e.CanExecute = !string.IsNullOrWhiteSpace(CodeBox.Text.Replace(';', ' '))));
         }
     }
 }
