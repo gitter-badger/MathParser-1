@@ -165,16 +165,17 @@ namespace MathParsing
                         Infix.Add(Function);
                     }
 
-                    // Constant
-                    else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
-                        Infix.Add(CommonTokens.Constants[Word.ToString()]);
-
                     // Variable
                     else if (IsDefined(Word.ToString(), EnumerateVariables()))
                     {
                         if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                         Infix.Add(Find(Word.ToString(), EnumerateVariables()));
                     }
+
+                    // Constant
+                    else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
+                        Infix.Add(CommonTokens.Constants[Word.ToString()]);
+
                     else throw new ArgumentException("Unknown token");
                 }
 
