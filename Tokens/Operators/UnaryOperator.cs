@@ -7,11 +7,13 @@ namespace MathParsing
         Func<double, double> Function;
 
         public UnaryOperator(char Keyword, int Priority, Func<double, double> Function)
-            : base(Keyword.ToString(), Priority)
+            : base(Keyword.ToString(), 1, Priority)
         {
             this.Function = Function;
         }
 
         public double Invoke(double Arg) { return Function(Arg); }
+
+        public override double Invoke(double[] Parameters) { return Invoke(Parameters[0]); }
     }
 }

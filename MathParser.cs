@@ -159,8 +159,10 @@ namespace MathParsing
                     // Function
                     if (IsDefined(Word.ToString(), EnumerateFunctions()))
                     {
-                        if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
-                        Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
+                        var Function = Find(Word.ToString(), EnumerateFunctions());
+
+                        if (!(Function is PostfixFunction) && Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
+                        Infix.Add(Function);
                     }
 
                     // Constant
@@ -182,9 +184,11 @@ namespace MathParsing
 
                 else if (IsDefined(Word.ToString(), EnumerateFunctions()))
                 {
-                    if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
+                    var Function = Find(Word.ToString(), EnumerateFunctions());
+
+                    if (!(Function is PostfixFunction) && Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                     ++Position;
-                    Infix.Add(Find(Word.ToString(), EnumerateFunctions()));
+                    Infix.Add(Function);
                 }
 
                 else if (IsDefined(Word.ToString(), EnumerateVariables()))

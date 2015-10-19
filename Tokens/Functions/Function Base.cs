@@ -3,12 +3,12 @@ using MathParsing.Properties;
 
 namespace MathParsing
 {
-    public abstract class Function : Token
+    public abstract class Function : Token, IEvaluatable
     {
         public int ParameterCount { get; private set; }
 
-        public Function(string Keyword, int ParamCount, int Priority = 10) 
-            : base(Keyword, Priority) 
+        public Function(string Keyword, int ParamCount) 
+            : base(Keyword, 10) 
         {
             if (Char.IsLetter(Keyword[0]))
             {
@@ -24,5 +24,8 @@ namespace MathParsing
 
             this.ParameterCount = ParamCount;
         }
+
+
+        public abstract double Invoke(double[] Parameters);
     }
 }

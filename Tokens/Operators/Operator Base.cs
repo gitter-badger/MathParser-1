@@ -3,11 +3,15 @@ using MathParsing.Properties;
 
 namespace MathParsing
 {
-    public abstract class Operator : Token
+    public abstract class Operator : Token, IEvaluatable
     {
-        public Operator(string Keyword, int Priority = 0)
+        public int ParameterCount { get; private set; }
+
+        public Operator(string Keyword, int ParameterCount, int Priority)
             : base(Keyword, Priority)
         {
+            this.ParameterCount = ParameterCount;
+
             if (Char.IsLetter(Keyword[0]))
             {
                 foreach (var Character in Keyword)
@@ -21,5 +25,8 @@ namespace MathParsing
                         throw new FormatException(Resources.OperatorFormatError);
             }
         }
+
+
+        public abstract double Invoke(double[] Parameters);
     }
 }

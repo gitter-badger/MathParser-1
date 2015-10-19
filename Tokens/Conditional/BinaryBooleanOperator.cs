@@ -2,16 +2,14 @@
 
 namespace MathParsing
 {
-    public sealed class BinaryBooleanOperator : BooleanOperator
+    public sealed class BinaryBooleanOperator : BinaryOperator
     {
         Func<bool, bool, bool> Procedure;
 
         public BinaryBooleanOperator(string Keyword, int Priority, Func<bool, bool, bool> Procedure)
-            : base(Keyword, Priority)
+            : base(Keyword, Priority, (x, y) => (Boolean)Procedure((Boolean)x, (Boolean)y))
         {
             this.Procedure = Procedure;
         }
-
-        public Boolean Invoke(Boolean Arg1, Boolean Arg2) { return Procedure(Arg1, Arg2); }
     }
 }

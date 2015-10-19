@@ -39,6 +39,7 @@
     <Compile Include="CommonTokens.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GeneratedMethod.cs" />
+    <Compile Include="IEvaluatable.cs" />
     <Compile Include="MathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -50,7 +51,6 @@
     <Compile Include="RPNGenerator.cs" />
     <Compile Include="Tokens\Conditional\Boolean.cs" />
     <Compile Include="Tokens\Conditional\BinaryBooleanOperator.cs" />
-    <Compile Include="Tokens\Conditional\BooleanOperator Base.cs" />
     <Compile Include="Tokens\Conditional\ComparisonOperator.cs" />
     <Compile Include="Tokens\Conditional\IfFunction.cs" />
     <Compile Include="Tokens\Constant.cs" />

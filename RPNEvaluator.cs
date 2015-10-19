@@ -24,64 +24,22 @@ namespace MathParsing
                 else if (Token is Variable)
                     Stack.Push(((Variable)Token).Value);
 
-                // Otherwise apply operator or function to elements in stack
-                else if (Token is UnaryOperator)
-                    Stack.Push((Token as UnaryOperator).Invoke(Stack.Pop()));
-
                 else if (Token is TrigonometricFunction)
                     Stack.Push((Token as TrigonometricFunction).Invoke(Stack.Pop(), AngleType));
 
-                else if (Token is UnaryFunction)
-                    Stack.Push((Token as UnaryFunction).Invoke(Stack.Pop()));
-
-                else if (Token is BinaryOperator)
+                // Otherwise apply operator or function to elements in stack
+                else if (Token is IEvaluatable)
                 {
-                    double Argument2 = Stack.Pop();
-                    double Argument1 = Stack.Pop();
+                    int Count = (Token as IEvaluatable).ParameterCount;
 
-                    Stack.Push((Token as BinaryOperator).Invoke(Argument1, Argument2));
-                }
+                    List<double> Arguments = new List<double>(Count);
 
-                else if (Token is ComparisonOperator)
-                {
-                    double Argument2 = Stack.Pop();
-                    double Argument1 = Stack.Pop();
+                    for (int i = 0; i < Count; ++i) 
+                        Arguments.Add(Stack.Pop());
 
-                    Stack.Push((Boolean)((Token as ComparisonOperator).Invoke(Argument1, Argument2)));
-                }
+                    Arguments.Reverse();
 
-                else if (Token is BinaryFunction)
-                {
-                    double Argument2 = Stack.Pop();
-                    double Argument1 = Stack.Pop();
-
-                    Stack.Push((Token as BinaryFunction).Invoke(Argument1, Argument2));
-                }
-
-                else if (Token is BinaryBooleanOperator)
-                {
-                    Boolean Argument2 = Stack.Pop();
-                    Boolean Argument1 = Stack.Pop();
-
-                    Stack.Push((Token as BinaryBooleanOperator).Invoke(Argument1, Argument2));
-                }
-
-                else if (Token is TernaryFunction)
-                {
-                    double Argument3 = Stack.Pop();
-                    double Argument2 = Stack.Pop();
-                    double Argument1 = Stack.Pop();
-
-                    Stack.Push((Token as TernaryFunction).Invoke(Argument1, Argument2, Argument3));
-                }
-
-                else if (Token is IfFunction)
-                {
-                    double Argument3 = Stack.Pop();
-                    double Argument2 = Stack.Pop();
-                    Boolean Argument1 = Stack.Pop();
-
-                    Stack.Push((Token as IfFunction).Invoke(Argument1, Argument2, Argument3));
+                    Stack.Push((Token as IEvaluatable).Invoke(Arguments.ToArray()));
                 }
             }
 

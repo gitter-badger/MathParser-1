@@ -13,5 +13,7 @@ namespace MathParsing
         }
 
         public double Invoke(double Arg1, double Arg2) { return Procedure(Arg1, Arg2); }
+
+        public override double Invoke(double[] Parameters) { return Invoke(Parameters[0], Parameters[1]); }
     }
 }

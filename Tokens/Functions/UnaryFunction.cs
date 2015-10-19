@@ -13,5 +13,7 @@ namespace MathParsing
         }
 
         public double Invoke(double Arg) { return Procedure(Arg); }
+
+        public override double Invoke(double[] Parameters) { return Invoke(Parameters[0]); }
     }
 }
