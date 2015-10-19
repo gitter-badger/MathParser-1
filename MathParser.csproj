@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="RPNEvaluator.cs" />
     <Compile Include="RPNGenerator.cs" />
+    <Compile Include="Scripting\Script.cs" />
     <Compile Include="Tokens\Conditional\Boolean.cs" />
     <Compile Include="Tokens\Conditional\BinaryBooleanOperator.cs" />
     <Compile Include="Tokens\Conditional\ComparisonOperator.cs" />

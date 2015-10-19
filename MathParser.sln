@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathParser", "MathParser.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sequention", "MathParserSample\Sequention.csproj", "{D568B6F2-E19B-4D01-95A8-9A774EB31354}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptApp", "ScriptApp\ScriptApp.csproj", "{17D28550-5B2D-48A4-8D9A-697CF315E5E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{D568B6F2-E19B-4D01-95A8-9A774EB31354}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D568B6F2-E19B-4D01-95A8-9A774EB31354}.Release|x86.ActiveCfg = Release|x86
 		{D568B6F2-E19B-4D01-95A8-9A774EB31354}.Release|x86.Build.0 = Release|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Debug|x86.ActiveCfg = Debug|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Debug|x86.Build.0 = Debug|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Release|Any CPU.ActiveCfg = Release|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Release|x86.ActiveCfg = Release|x86
+		{17D28550-5B2D-48A4-8D9A-697CF315E5E5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

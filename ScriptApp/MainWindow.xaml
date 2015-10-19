@@ -1,0 +1,14 @@
+﻿<Window x:Class="ScriptApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScriptApp" Height="350" Width="525" WindowStyle="ToolWindow">
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button Content="Evaluate" DockPanel.Dock="Right" Command="Refresh" />
+                <Label Content="Result" Name="ResultBox"/>
+            </DockPanel>
+            <TextBox AcceptsReturn="True" Name="CodeBox"/>
+        </DockPanel>
+    </Grid>
+</Window>
