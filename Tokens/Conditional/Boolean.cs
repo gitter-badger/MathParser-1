@@ -2,7 +2,9 @@
 {
     public sealed class Boolean : Token
     {
-        Boolean(bool Keyword) : base(Keyword.ToString(), 0) { }
+        bool Value;
+
+        Boolean(bool Value) : base(0) { this.Value = Value; }
 
         public static readonly Boolean True = new Boolean(true),
             False = new Boolean(false);

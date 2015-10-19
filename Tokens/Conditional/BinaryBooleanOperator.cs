@@ -6,8 +6,8 @@ namespace MathParsing
     {
         Func<bool, bool, bool> Procedure;
 
-        public BinaryBooleanOperator(string Keyword, int Priority, Func<bool, bool, bool> Procedure)
-            : base(Keyword, Priority, (x, y) => (Boolean)Procedure((Boolean)x, (Boolean)y))
+        public BinaryBooleanOperator(int Priority, Func<bool, bool, bool> Procedure)
+            : base(Priority, (x, y) => (Boolean)Procedure((Boolean)x, (Boolean)y))
         {
             this.Procedure = Procedure;
         }

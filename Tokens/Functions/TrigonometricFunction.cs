@@ -4,8 +4,8 @@ namespace MathParsing
 {
     public sealed class TrigonometricFunction : UnaryFunction
     {
-        public TrigonometricFunction(string Keyword, Func<double, double> Procedure)
-            : base(Keyword, Procedure) { }
+        public TrigonometricFunction(Func<double, double> Procedure)
+            : base(Procedure) { }
 
         public double Invoke(double Arg, AngleType AngleType)
         {

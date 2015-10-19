@@ -15,40 +15,31 @@ namespace MathParsing
 
         public AngleType AngleType { get; set; }
 
-        public readonly List<Operator> Operators = new List<Operator>();
+        public readonly BranchedTokenDictionary<Operator> Operators = CommonTokens.Operators.Branch();
 
-        public readonly List<Function> Functions = new List<Function>();
+        public readonly BranchedTokenDictionary<Function> Functions = CommonTokens.Functions.Branch();
 
-        public readonly List<Variable> Variables = new List<Variable>();
-        #endregion
-
-        #region TokenSearch
-        internal bool IsDefined(string Keyword, IEnumerable<Token> Collection)
-        {
-            try
+        public readonly TokenDictionary<Variable> Variables
+            = new TokenDictionary<Variable>((S) =>
             {
-                Find(Keyword, Collection);
-                return true;
-            }
-            catch { return false; }
-        }
+                if (Char.IsLetter(S[0]))
+                {
+                    foreach (var Character in S)
+                        if (!Char.IsLetter(Character))
+                            return false;
 
-        Token Find(string Keyword, IEnumerable<Token> Collection)
-        {
-            foreach (var Token in Collection)
-                if (Token.Keyword == Keyword)
-                    return Token;
+                    return true;
+                }
+                else
+                {
+                    if (S.Length != 1 || S[0].Is(')', '(', ',') || Char.IsDigit(S[0]))
+                        return false;
 
-            throw new FormatException("Token not defined");
-        }
-
-        IEnumerable<Function> EnumerateFunctions() { return CommonTokens.Functions.Union(Functions).Reverse(); }
-
-        IEnumerable<Operator> EnumerateOperators() { return CommonTokens.Operators.Union(Operators).Reverse(); }
-
-        public IEnumerable<Variable> EnumerateVariables() { return ((IEnumerable<Variable>)Variables).Reverse(); }
+                    return true;
+                }
+            });
         #endregion
-
+        
         /// <summary>
         /// Initialize new instance of MathParser
         /// (Decimal Separator symbol is read from regional settings in system)
@@ -105,16 +96,16 @@ namespace MathParsing
             return FormattedString.ToString().Replace(")(", ")*(");
         }
 
-        GeneratedMethod GenerateMethod(params Variable[] Parameters)
+        GeneratedMethod GenerateMethod(params string[] Parameters)
         {
             foreach (var Param in Parameters)
-                if (!IsDefined(Param.Keyword, EnumerateVariables()))
+                if (!Variables.ContainsKey(Param))
                     throw new ArgumentException("Use of Undefined Variable");
 
             return (VariableValues) =>
                 {
                     for (int i = 0; i < Parameters.Length; ++i)
-                        Parameters[i].Value = VariableValues[i];
+                        Variables[Parameters[i]].Value = VariableValues[i];
 
                     return Evaluate();
                 };
@@ -147,7 +138,7 @@ namespace MathParsing
                 else if (Word[0] == ')') Infix.Add(Punctuation.RightParenthesis);
 
                 // If it is an operator
-                else if (IsDefined(Word.ToString(), EnumerateOperators()))
+                else if (Operators.ContainsKey(Word.ToString()))
                     Infix.Add(ParseOperator(Expression, ref Position, Word));
 
                 else if (Char.IsLetter(Word[0]))
@@ -157,19 +148,19 @@ namespace MathParsing
                         Word.Append(Expression[Position]);
 
                     // Function
-                    if (IsDefined(Word.ToString(), EnumerateFunctions()))
+                    if (Functions.ContainsKey(Word.ToString()))
                     {
-                        var Function = Find(Word.ToString(), EnumerateFunctions());
+                        var Function = Functions[Word.ToString()];
 
                         if (!(Function is PostfixFunction) && Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                         Infix.Add(Function);
                     }
 
                     // Variable
-                    else if (IsDefined(Word.ToString(), EnumerateVariables()))
+                    else if (Variables.ContainsKey(Word.ToString()))
                     {
                         if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
-                        Infix.Add(Find(Word.ToString(), EnumerateVariables()));
+                        Infix.Add(Variables[Word.ToString()]);
                     }
 
                     // Constant
@@ -183,20 +174,20 @@ namespace MathParsing
                 else if (Char.IsDigit(Word[0]) || Word[0] == DecimalSeparator)
                     Infix.Add(ParseNumber(Expression, ref Position, Word));
 
-                else if (IsDefined(Word.ToString(), EnumerateFunctions()))
+                else if (Functions.ContainsKey(Word.ToString()))
                 {
-                    var Function = Find(Word.ToString(), EnumerateFunctions());
+                    var Function = Functions[Word.ToString()];
 
                     if (!(Function is PostfixFunction) && Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                     ++Position;
                     Infix.Add(Function);
                 }
 
-                else if (IsDefined(Word.ToString(), EnumerateVariables()))
+                else if (Variables.ContainsKey(Word.ToString()))
                 {
                     if (Infix.Count > 0 && Infix.Last() is Constant) Infix.Add(CommonTokens.Multiply);
                     ++Position;
-                    Infix.Add(Find(Word.ToString(), EnumerateVariables()));
+                    Infix.Add(Variables[Word.ToString()]);
                 }
 
                 else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
@@ -212,8 +203,8 @@ namespace MathParsing
                         && !Expression[Position].Is('(', ')', ','))
                         Word.Append(Expression[Position]);
 
-                    if (IsDefined(Word.ToString(), EnumerateOperators()))
-                        Infix.Add(Find(Word.ToString(), EnumerateOperators()));
+                    if (Operators.ContainsKey(Word.ToString()))
+                        Infix.Add(Operators[Word.ToString()]);
 
                     else throw new ArgumentException("Unknown token in expression");
                 }
@@ -224,13 +215,7 @@ namespace MathParsing
 
         Token ParseOperator(string Expression, ref int Position, StringBuilder Word)
         {
-            if (Word[0].Is('(', ')', ','))
-            {
-                ++Position;
-                return Find(Word.ToString(), EnumerateOperators());
-            }
-
-            else if (!Char.IsLetterOrDigit(Word[0])
+            if (!Char.IsLetterOrDigit(Word[0])
                 && !Char.IsLetterOrDigit(Expression[Position + 1])
                 && !Expression[Position + 1].Is('(', ')', ','))
             {
@@ -239,8 +224,8 @@ namespace MathParsing
                     && !Expression[Position].Is('(', ')', ','))
                     Word.Append(Expression[Position]);
 
-                if (IsDefined(Word.ToString(), EnumerateOperators()))
-                    return Find(Word.ToString(), EnumerateOperators());
+                if (Operators.ContainsKey(Word.ToString()))
+                    return Operators[Word.ToString()];
 
                 else throw new ArgumentException("Unknown token in expression");
             }
@@ -252,17 +237,17 @@ namespace MathParsing
 
                 if (IsUnary)
                 {
-                    foreach (var Op in EnumerateOperators())
-                        if (Op is UnaryOperator && Op.Keyword == Word.ToString())
-                            return Op;
+                    foreach (var Op in Operators.Items)
+                        if (Op.Value is UnaryOperator && Op.Key == Word.ToString())
+                            return Op.Value;
 
                     throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
                 }
                 else
                 {
-                    foreach (var Op in EnumerateOperators())
-                        if (!(Op is UnaryOperator) && Op.Keyword == Word.ToString())
-                            return Op;
+                    foreach (var Op in Operators.Items)
+                        if (!(Op.Value is UnaryOperator) && Op.Key == Word.ToString())
+                            return Op.Value;
 
                     throw new FormatException("Token not defined");
                 }

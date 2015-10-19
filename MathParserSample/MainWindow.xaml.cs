@@ -32,7 +32,7 @@ namespace Sequention
                 if (Options.SelectedIndex == 0)
                 {
                     var Parser = new MathParsing.MathParser();
-                    Parser.Variables.Add(new MathParsing.Variable(Iterate.Text, LIndex.Value));
+                    Parser.Variables.Add(Iterate.Text, new MathParsing.Variable(LIndex.Value));
                     Resultant.Text = Parser.Evaluate(ExpressionBox.Text).ToString();
                 }
 

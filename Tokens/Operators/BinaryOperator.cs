@@ -6,8 +6,8 @@ namespace MathParsing
     {
         Func<double, double, double> Function;
 
-        public BinaryOperator(string Keyword, int Priority, Func<double, double, double> Function)
-            : base(Keyword, 2, Priority)
+        public BinaryOperator(int Priority, Func<double, double, double> Function)
+            : base(2, Priority)
         {
             this.Function = Function;
         }

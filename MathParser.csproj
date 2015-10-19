@@ -50,11 +50,11 @@
     <Compile Include="RPNEvaluator.cs" />
     <Compile Include="RPNGenerator.cs" />
     <Compile Include="Scripting\Script.cs" />
-    <Compile Include="Scripting\VariableAssignmentOperator.cs" />
+    <Compile Include="Scripting\ScriptingOperators.cs" />
+    <Compile Include="TokenDictionary.cs" />
     <Compile Include="Tokens\Conditional\Boolean.cs" />
     <Compile Include="Tokens\Conditional\BinaryBooleanOperator.cs" />
     <Compile Include="Tokens\Conditional\ComparisonOperator.cs" />
-    <Compile Include="Tokens\Conditional\IfFunction.cs" />
     <Compile Include="Tokens\Constant.cs" />
     <Compile Include="Tokens\Functions\TernaryFunction.cs" />
     <Compile Include="Tokens\Functions\TrigonometricFunction.cs" />

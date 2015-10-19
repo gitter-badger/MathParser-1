@@ -11,9 +11,9 @@ namespace Sequention
 
             var parser = new MathParser();
 
-            var Var = new Variable(IterationVariable.ToString(), 0);
+            var Var = new Variable();
 
-            parser.Variables.Add(Var);
+            parser.Variables.Add(IterationVariable.ToString(), Var);
             parser.Parse(Expression);
 
             for (double i = LowerIndex; i <= UpperIndex; i += Step)
@@ -31,9 +31,9 @@ namespace Sequention
 
             var parser = new MathParser();
 
-            var Var = new Variable(IterationVariable.ToString(), 0);
+            var Var = new Variable();
 
-            parser.Variables.Add(Var);
+            parser.Variables.Add(IterationVariable.ToString(), Var);
             parser.Parse(Expression);
 
             for (double i = LowerIndex; i <= UpperIndex; i += Step)
@@ -49,9 +49,9 @@ namespace Sequention
         {
             var parser = new MathParser();
 
-            var Var = new Variable(IterationVariable.ToString(), 0);
+            var Var = new Variable();
 
-            parser.Variables.Add(Var);
+            parser.Variables.Add(IterationVariable.ToString(), Var);
             parser.Parse(Expression);
 
             Func<double,double> proc = (x) =>

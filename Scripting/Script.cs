@@ -57,7 +57,7 @@ namespace MathParsing.Scripting
 
                     Statement = Statement.Trim();
 
-                    if (!P.IsDefined(VarName, P.EnumerateVariables())) throw new Exception("Unsupported Statement");
+                    if (!P.Variables.ContainsKey(VarName)) throw new Exception("Unsupported Statement");
 
                     string Operator = null;
 
@@ -71,7 +71,7 @@ namespace MathParsing.Scripting
                     Statement = Statement.Remove(0, Statement.IndexOf('=') + 1);
 
                     ScriptingOperators.VariableAssignmentOperators[Operator]
-                        .Invoke(P.Variables.Find((V) => V.Keyword == VarName), P.Evaluate(Statement));
+                        .Invoke(P.Variables[VarName], P.Evaluate(Statement));
                 }
             }
 
@@ -92,7 +92,7 @@ namespace MathParsing.Scripting
 
             Statement = Statement.Remove(0, Statement.IndexOf('=') + 1);
 
-            P.Variables.Add(new Variable(VarName, P.Evaluate(Statement)));
+            P.Variables.Add(VarName, new Variable(P.Evaluate(Statement)));
         }
     }
 }

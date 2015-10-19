@@ -6,8 +6,8 @@ namespace MathParsing
     {
         Func<double, double> Procedure;
 
-        public UnaryFunction(string Keyword, Func<double, double> Procedure)
-            : base(Keyword, 1)
+        public UnaryFunction(Func<double, double> Procedure)
+            : base(1)
         {
             this.Procedure = Procedure;
         }

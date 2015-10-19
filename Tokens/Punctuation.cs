@@ -2,7 +2,9 @@
 {
     sealed class Punctuation : Token
     {
-        Punctuation(string Keyword) : base(Keyword, 0) { }
+        string Word;
+
+        Punctuation(string Word) : base(0) { this.Word = Word; }
 
         public static readonly Punctuation LeftParenthesis = new Punctuation("("),
             RightParenthesis = new Punctuation(")"),

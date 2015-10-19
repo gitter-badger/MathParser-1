@@ -2,10 +2,12 @@
 {
     public sealed class Constant : Token
     {
-        Constant(double Value) : base(Value.ToString(), 0) { }
+        double Value;
+
+        Constant(double Value) : base(0) { this.Value = Value; }
 
         public static implicit operator Constant(double Number) { return new Constant(Number); }
 
-        public static implicit operator double(Constant Token) { return double.Parse(Token.Keyword); }
+        public static implicit operator double(Constant Token) { return Token.Value; }
     }
 }
