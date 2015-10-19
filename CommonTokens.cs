@@ -25,7 +25,7 @@ namespace MathParsing
                 }
             }
         }
-        
+
         public static readonly UnaryOperator UnaryPlus = new UnaryOperator('+', 8, (x) => x),
             UnaryMinus = new UnaryOperator('-', 8, (x) => -x);
 
@@ -51,7 +51,8 @@ namespace MathParsing
                 new ComparisonOperator(">=", 3, (x, y) => x >= y),
                 new ComparisonOperator("<=", 3, (x, y) => x <= y),
                 new BinaryBooleanOperator("&", 1, (x, y) => x && y),
-                new BinaryBooleanOperator("|", 1, (x, y) => x || y)
+                new BinaryBooleanOperator("|", 1, (x, y) => x || y),
+                new UnaryOperator('~', 8, (x) => (Boolean) !(Boolean)x)
             };
 
         public static readonly List<Function> Functions =
