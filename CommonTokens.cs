@@ -35,8 +35,6 @@ namespace MathParsing
                     }
                 }, Resources.OperatorFormatError)
             {
-                //{ "un+", UnaryPlus },
-                //{ "un-", UnaryMinus },
                 { "+", Plus },
                 { "-", Minus },
                 { "*", Multiply },

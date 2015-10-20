@@ -9,5 +9,7 @@
         public static implicit operator Constant(double Number) { return new Constant(Number); }
 
         public static implicit operator double(Constant Token) { return Token.Value; }
+
+        public override string ToString() { return Value.ToString(); }
     }
 }
