@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
 
 namespace MathParsing
 {
-    public class InvalidTokenNameException : Exception { }
-
     public class TokenDictionary<T> : Dictionary<string, T>
     {
         internal Predicate<string> Validation;
+        internal string ErrorMessage;
 
-        public TokenDictionary(Predicate<string> Validation) { this.Validation = Validation; }
+        public TokenDictionary(Predicate<string> Validation, string ErrorMessage)
+        {
+            this.Validation = Validation;
+            this.ErrorMessage = ErrorMessage;
+        }
 
         public new void Add(string Keyword, T Item)
         {
-            if (!Validation(Keyword)) throw new InvalidTokenNameException();
+            if (!Validation(Keyword)) throw new KeywordFormatException(ErrorMessage);
 
             base.Add(Keyword, Item);
         }
@@ -29,7 +31,7 @@ namespace MathParsing
         TokenDictionary<T> Parent;
 
         public BranchedTokenDictionary(TokenDictionary<T> Parent)
-            : base(Parent.Validation)
+            : base(Parent.Validation, Parent.ErrorMessage)
         {
             this.Parent = Parent;
         }
@@ -49,7 +51,5 @@ namespace MathParsing
         }
 
         public new int Count { get { return base.Count + Parent.Count; } }
-
-        public IEnumerable<KeyValuePair<string, T>> Items { get { return Parent.Union(this); } }
     }
 }

@@ -33,7 +33,7 @@ namespace MathParsing
 
                         return true;
                     }
-                })
+                }, Resources.OperatorFormatError)
             {
                 //{ "un+", UnaryPlus },
                 //{ "un-", UnaryMinus },
@@ -72,7 +72,7 @@ namespace MathParsing
 
                         return true;
                     }
-                })
+                }, Resources.FunctionFormatError)
             {
                 { "sqrt", new UnaryFunction(Math.Sqrt) },
 
@@ -143,7 +143,7 @@ namespace MathParsing
 
                     return true;
                 }
-            })
+            }, Resources.ConstantFormatError)
             {
                 {"pi", Math.PI },
                 {"e", Math.E },

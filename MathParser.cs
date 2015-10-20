@@ -37,7 +37,7 @@ namespace MathParsing
 
                     return true;
                 }
-            });
+            }, Properties.Resources.VariableFormatError);
         #endregion
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace MathParsing
                     else if (CommonTokens.Constants.ContainsKey(Word.ToString()))
                         Infix.Add(CommonTokens.Constants[Word.ToString()]);
 
-                    else throw new ArgumentException("Unknown token");
+                    else throw new TokenNotDefinedException();
                 }
 
                 // Read number
@@ -206,7 +206,7 @@ namespace MathParsing
                     if (Operators.ContainsKey(Word.ToString()))
                         Infix.Add(Operators[Word.ToString()]);
 
-                    else throw new ArgumentException("Unknown token in expression");
+                    else throw new TokenNotDefinedException();
                 }
             }
 
@@ -227,7 +227,7 @@ namespace MathParsing
                 if (Operators.ContainsKey(Word.ToString()))
                     return Operators[Word.ToString()];
 
-                else throw new ArgumentException("Unknown token in expression");
+                else throw new TokenNotDefinedException();
             }
             else
             {
