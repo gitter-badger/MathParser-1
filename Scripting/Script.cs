@@ -33,7 +33,7 @@ namespace MathParsing.Scripting
             foreach (string Statement in Code.Split("\n;".ToCharArray()).Reverse())
             {
                 if (string.IsNullOrWhiteSpace(Statement)) continue;
-                Statements.Push(Statement.Trim());
+                Statements.Push(Statement);
             }
 
             while (Statements.Count > 0)
@@ -49,18 +49,23 @@ namespace MathParsing.Scripting
 
         double ExecuteStatement(string Statement)
         {
+            Statement = Statement.Trim().ToLower();
+
             if (Statement.StartsWith("var"))
                 DeclareVariable(Statement);
             else if (Statement.StartsWith("return"))
                 return P.Evaluate(Statement.Remove(0, 6));
             else if (Statement.StartsWith("if"))
-                If(Statement);
+            {
+                double Result = If(Statement);
+                if (!double.IsNaN(Result)) return Result;
+            }
             else AssignVariable(Statement);
 
             return double.NaN;
         }
 
-        void If(string Statement)
+        double If(string Statement)
         {
             Statement = Statement.Remove(0, Statement.IndexOf('(') + 1);
 
@@ -74,7 +79,9 @@ namespace MathParsing.Scripting
 
             Statement = Statement.Remove(0, 1);
 
-            if ((Boolean)P.Evaluate(Condition)) ExecuteStatement(Statement);
+            if ((Boolean)P.Evaluate(Condition)) return ExecuteStatement(Statement);
+
+            return double.NaN;
         }
 
         void AssignVariable(string Statement)
