@@ -39,7 +39,7 @@ namespace MathParsing
                 }
             });
         #endregion
-        
+
         /// <summary>
         /// Initialize new instance of MathParser
         /// (Decimal Separator symbol is read from regional settings in system)
@@ -235,21 +235,14 @@ namespace MathParsing
                 bool IsUnary = Position == 0 || Expression[Position - 1] == '(';
                 Position++;
 
-                if (IsUnary)
+                switch (Word.ToString())
                 {
-                    foreach (var Op in Operators.Items)
-                        if (Op.Value is UnaryOperator && Op.Key == Word.ToString())
-                            return Op.Value;
-
-                    throw new FormatException("Token not defined or Invalid Usage as Unary Operator");
-                }
-                else
-                {
-                    foreach (var Op in Operators.Items)
-                        if (!(Op.Value is UnaryOperator) && Op.Key == Word.ToString())
-                            return Op.Value;
-
-                    throw new FormatException("Token not defined");
+                    case "+":
+                        return IsUnary ? (Operator)CommonTokens.UnaryPlus : CommonTokens.Plus;
+                    case "-":
+                        return IsUnary ? (Operator)CommonTokens.UnaryMinus : CommonTokens.Minus;
+                    default:
+                        return Operators[Word.ToString()];
                 }
             }
         }
