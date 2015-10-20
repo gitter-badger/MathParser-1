@@ -60,7 +60,7 @@ namespace MathParsing
 
         public double Evaluate()
         {
-            if (RPNExpression == null) throw new ArgumentNullException("RPN has not been Generated");
+            if (RPNExpression == null) return double.NaN;
 
             return RPNEvaluator.Evaluate(RPNExpression);
         }

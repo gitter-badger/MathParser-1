@@ -40,20 +40,49 @@ namespace MathParsing.Scripting
             {
                 string Statement = Statements.Pop();
 
-                if (Statement.StartsWith("var"))
-                    DeclareVariable(Statement);
-                else if (Statement.StartsWith("return"))
-                    return P.Evaluate(Statement.Remove(0, 6));
-                else AssignVariable(Statement);
+                double Result = ExecuteStatement(Statement);
+                if (!double.IsNaN(Result)) return Result;
             }
 
             return double.NaN;
+        }
+
+        double ExecuteStatement(string Statement)
+        {
+            if (Statement.StartsWith("var"))
+                DeclareVariable(Statement);
+            else if (Statement.StartsWith("return"))
+                return P.Evaluate(Statement.Remove(0, 6));
+            else if (Statement.StartsWith("if"))
+                If(Statement);
+            else AssignVariable(Statement);
+
+            return double.NaN;
+        }
+
+        void If(string Statement)
+        {
+            Statement = Statement.Remove(0, Statement.IndexOf('(') + 1);
+
+            string Condition = null;
+
+            while (Statement[0] != ')')
+            {
+                Condition += Statement[0];
+                Statement = Statement.Remove(0, 1);
+            }
+
+            Statement = Statement.Remove(0, 1);
+
+            if ((Boolean)P.Evaluate(Condition)) ExecuteStatement(Statement);
         }
 
         void AssignVariable(string Statement)
         {
             //Read Variable Name
             string VarName = null;
+
+            Statement = Statement.Trim();
 
             while (Char.IsLetter(Statement[0]))
             {
@@ -78,21 +107,19 @@ namespace MathParsing.Scripting
                     }
 
                     Operator += '=';
-                    Statement = Statement.Remove(0, Statement.IndexOf('=') + 1);
+                    Statement = Statement.Remove(0, 1);
 
                     ScriptingOperators.VariableAssignmentOperators[Operator]
                         .Invoke(P.Variables[VarName], P.Evaluate(Statement));
                     break;
-                    
+
                 default:
                     Operator += Statement.Substring(0, 2);
-                                        
+
                     ScriptingOperators.VariableShorthandOperators[Operator]
                         .Invoke(P.Variables[VarName]);
                     break;
             }
-
-
         }
 
         void DeclareVariable(string Statement)
