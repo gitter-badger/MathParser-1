@@ -44,23 +44,33 @@ namespace MathParsing.Scripting
                     DeclareVariable(Statement);
                 else if (Statement.StartsWith("return"))
                     return P.Evaluate(Statement.Remove(0, 6));
-                else
-                {
-                    //Read Variable Name
-                    string VarName = null;
+                else AssignVariable(Statement);
+            }
 
-                    while (Char.IsLetter(Statement[0]))
-                    {
-                        VarName += Statement[0];
-                        Statement = Statement.Remove(0, 1);
-                    }
+            return double.NaN;
+        }
 
-                    Statement = Statement.Trim();
+        void AssignVariable(string Statement)
+        {
+            //Read Variable Name
+            string VarName = null;
 
-                    if (!P.Variables.ContainsKey(VarName)) throw new Exception("Unsupported Statement");
+            while (Char.IsLetter(Statement[0]))
+            {
+                VarName += Statement[0];
+                Statement = Statement.Remove(0, 1);
+            }
 
-                    string Operator = null;
+            Statement = Statement.Trim();
 
+            if (!P.Variables.ContainsKey(VarName)) throw new TokenNotDefinedException();
+
+            string Operator = null;
+
+            switch (Statement.IndexOf('='))
+            {
+                case 0:
+                case 1:
                     while (Statement[0] != '=')
                     {
                         Operator += Statement[0];
@@ -72,10 +82,17 @@ namespace MathParsing.Scripting
 
                     ScriptingOperators.VariableAssignmentOperators[Operator]
                         .Invoke(P.Variables[VarName], P.Evaluate(Statement));
-                }
+                    break;
+                    
+                default:
+                    Operator += Statement.Substring(0, 2);
+                                        
+                    ScriptingOperators.VariableShorthandOperators[Operator]
+                        .Invoke(P.Variables[VarName]);
+                    break;
             }
 
-            return double.NaN;
+
         }
 
         void DeclareVariable(string Statement)
