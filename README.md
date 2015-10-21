@@ -1,4 +1,6 @@
 #MathParser
+
+[![Join the chat at https://gitter.im/MathewSachin/MathParser](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MathewSachin/MathParser?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build status](https://ci.appveyor.com/api/projects/status/phtg3gxvhop5j28f?svg=true)](https://ci.appveyor.com/project/MathewSachin/mathparser)  
 Improved by Mathew Sachin
 
